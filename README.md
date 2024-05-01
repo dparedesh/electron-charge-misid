@@ -22,17 +22,83 @@ The full process is divided into several steps:
 
 Details about how those steps are performed are shown below.
 
-# Sample selection
+## Sample selection
+
+The sample is selected by requiring data to contain only events coming from the decay $Z\rightarrow e^+e^-+jets$, i.e. only events with two electrons and no muons are selected. In addition,  electrons must satisfy a set of minimum data quality criteria.  
+
+This is done via the macro:
+
+    Skimming.C
+
+This macro also requires to input the variables that will be saved in the final sample. 
 
 
-Skimming.C
+## Estimate the charge misidentification rates
 
-# Estimate the charge misidentification rates
+The misidentification rates of the electron charge are estimated using the likelihood method. 
 
-Likelihood.C
+The likelihood method  assumes that  the misidentification rates of the electron charge are independent for different $|\eta|$ regions. Therefore, the probability of having a number of same-sign events ($N^{ij}_{ss}$) with electrons in $|\eta|$ region $i$ and $j$ can be written as a function of the number of events $N^{ij}$ as follows:
 
 
-# Estimate the background from charge misidentification
+$$
+N^{ij}_{ss}=N^{ij}(\epsilon_i+\epsilon_j).
+$$
+
+
+If all the same-sign events in the $Z$ peak are produced by charge flip, then $N^{ij}\_{ss}$ is described by a Poisson distribution:
+
+$$
+f(k,\lambda)=\frac{\lambda^k e^{-\lambda}}{k!},
+$$
+
+
+where $k$ is the observed number of occurrences of the event, i.e. $k=N^{ij}\_{ss}$, and $\lambda$ is the expected number,  i.e. $\lambda=N^{ij}(\epsilon_i+\epsilon_j)$. Thus, the probability for both electrons to produce a charge flip is expressed by:
+
+$$
+P(\epsilon_i,\epsilon_j|N^{ij}_{ss},N^{ij})=\frac{[N^{ij}(\epsilon_i+\epsilon_j)]^{N_{ss}^{ij}}e^{-N^{ij}(\epsilon_i+\epsilon_j)}}{N^{ij}_{ss}!}.
+$$
+
+
+The likelihood $L$ for all the events is obtained by evaluating all the $|\eta|$ combinations:
+
+
+$$
+L(\epsilon|N_{ss},N)=\prod_{i,j}\frac{[N^{ij}(\epsilon_i+\epsilon_j)]^{N_{ss}^{ij}}e^{-N^{ij}(\epsilon_i+\epsilon_j)}}{N^{ij}\_{ss}!},
+$$
+
+
+where the rates $\epsilon_i$ and $\epsilon_j$ can be obtained by minimizing the likelihood function. In this process, the $-\ln L$ is used to simplify and make easier the minimization. Terms which do not depend on the rates $\epsilon_i$ and $\epsilon_j$ are removed in this step. This way, the final function to minimize is given by the following expression:
+
+
+$$
+-\ln L(\epsilon|N_{ss},N)\approx \sum_{i,j}\ln[N^{ij}(\epsilon_i+\epsilon_j)]N^{ij}_{ss}-N^{ij}(\epsilon_i+\epsilon_j).
+$$
+
+The events are selected requiring the invariant mass of the two electrons to be compatible with the one of the  $Z$-boson and stored --with the electron order by $|\eta|$-- in two triangular matrices: one for the same-sign events $N^{ij}_{ss}$,  and the other one for all events $N^{ij}$. The likelihood method takes into account
+electron pairs with all $|\eta|$ combinations, which allows to use of the full available statistics  getting therefore lower statistical uncertainties. Moreover, it does not bias the kinematical properties of the electrons, compared to other methods like tag-and-probe.
+
+The likelihood  method can be easily extended to measure the charge misidentification rates as a function of  two parameters. In this study, the interest lies not only on the measurement of the rates   as a function of the $|\eta|$, but also on $p_\text{T}$. Thus, the probability of finding a same-sign event given the rates for each electron is ($\epsilon_{i,k}+\epsilon_{j,l}$), where the two indices represent binned $|\eta|$- and $p_\text{T}$-dependence. Thus, the last equation transforms into
+
+$$
+-\ln L(\epsilon|N_{ss},N)\approx \sum_{i,j,k,l}\ln[N^{ij,kl}(\epsilon_{i,k}+\epsilon_{j,l})]N^{ij,kl}\_{ss}-N^{ij,kl}(\epsilon_{i,k}+\epsilon_{j,l}).
+$$
+
+The likelihood method uses only $Z$ *signal* events. Therefore, background coming from other processes where the dilepton invariant mass corresponds to the one of the $Z$ boson needs to be subtracted. The background subtraction is done using a simple *side-band method*.   This method consists in dividing the $Z$ invariant mass in three regions, i.e. $A$, $B$ and $C$, where $B$ is the central region corresponding to the $Z$ peak. The number of events is counted in the regions on the sides of the peak, i.e. $n_A$ and $n_C$, and removed  from the total number of events in the peak region $B$, $n_B$. This way, the number of signal events $N_Z$ is given by
+
+$$
+N_Z=n_B-\frac{n_A+n_C}{2}.
+$$
+
+Once the background has been subtracted, the likelihood method can be applied. 
+
+All the procedure described in this section is performed by the macro:
+
+    Likelihood.C
+
+The rates are stored in  histograms that are saved in .root format. 
+
+
+## Estimate the background from charge misidentification
 
 GetQMisIDNtuple.C
 
@@ -46,7 +112,9 @@ ComputeDependencies.C
 ## Batch processing
 
 ChargeFlipBatchNoCF.C
+
 SubmitChargeFlipRates.py
+
 SubmitValidationPlots.py
 
 # Official results obtained with this tool
