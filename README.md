@@ -10,6 +10,42 @@ Here are two main sources of electron charge misidentification:
 
 - Hard Bremsstrahlung producing trident electrons ($e^\pm \rightarrow e^\pm \gamma^* \rightarrow e^\pm e^+e^-$) whose electromagnetic cluster is identified with the wrong electron's track, leading to a misidentification of the charge. This source represents the main contribution to the background. The fraction of trident electrons depends on the amount of material that the electrons traverse. In the ATLAS detector, the distribution of the material depends on $|\eta|$. Therefore, a strong dependence on $|\eta|$ is expected in the misidentification rates.
 - A slightly curved track that induces a measurement error. This effect is important at high transverse momentum ($p_\text{T}$).  Thus, a small dependence on electron $p_\text{T}$ is also expected in the misidentification rates.
+
+## [Preliminary concepts](#anchor-rates) 
+
+When a true opposite-sign event (for example $t\bar{t} \rightarrow bW^+\bar{b}W^- \rightarrow
+b\bar{b}e^+e^-\nu\bar{\nu}$) is produced, and assuming that $\epsilon$ is the rate of charge misidentification for a single electron, there are three possibilities for this event to be reconstructed:
+
+- $e^+e^- +X$ without any charge misidentification, with a probability of $(1-\epsilon)^2$,
+- $e^+e^- +X$ with the two electrons having a charge flip, with a probability of $\epsilon^2$,
+- $e^{\pm}e^{\pm} +X$ when only one of the two electrons is misidentified, with a probability of $2\epsilon(1-\epsilon)$.
+
+
+Therefore, if there are $N$ true opposite-sign events, the reconstructed events will be:
+
+- $N^{os} = (1-2\epsilon+2\epsilon^2) N$ opposite-sign events,
+- $N^{ss} = 2\epsilon(1-\epsilon) N \simeq 2\epsilon N$ same-sign events,
+
+where the last approximation for $N^{ss}$ corresponds to the assumption that $\epsilon$ is
+very small.
+
+Knowing this charge misidentification rate $\epsilon$, it is therefore possible to compute the
+estimated number of same-sign events $N^{ss}$ from the measured number of opposite-sign
+events $N^{os}$, using the following expressions:
+
+
+ $$
+ N^{ss} = \frac{\epsilon_i +\epsilon_j -2\epsilon_i \epsilon_j}{1-\epsilon_i -\epsilon_j +2\epsilon_i \epsilon_j} N^{os} 
+ $$
+
+for the $ee$ channel, and
+
+ $$
+ N^{ss} = \frac{\epsilon}{1-\epsilon} N^{os}
+ $$ 
+ 
+for the $e\mu$ channel, where $\epsilon_i$ and $\epsilon_j$ are the charge misidentification rates for the two
+different electrons.
     
 
 # Description
@@ -54,8 +90,9 @@ $$
 
 where $k$ is the observed number of occurrences of the event, i.e. $k=N^{ij}\_{ss}$, and $\lambda$ is the expected number,  i.e. $\lambda=N^{ij}(\epsilon_i+\epsilon_j)$. Thus, the probability for both electrons to produce a charge flip is expressed by:
 
+
 $$
-P(\epsilon_i,\epsilon_j|N^{ij}_{ss},N^{ij})=\frac{[N^{ij}(\epsilon_i+\epsilon_j)]^{N_{ss}^{ij}}e^{-N^{ij}(\epsilon_i+\epsilon_j)}}{N^{ij}_{ss}!}.
+P(\epsilon_i,\epsilon_j| N^{ij}\_{ss},N^{ij}) = \frac{[N^{ij}(\epsilon_i+\epsilon_j)]^{N_{ss}^{ij}}e^{-N^{ij}(\epsilon_i+\epsilon_j)}}{N^{ij}\_{ss}!}.
 $$
 
 
@@ -100,7 +137,15 @@ The rates are stored in  histograms that are saved in .root format.
 
 ## Estimate the background from charge misidentification
 
-GetQMisIDNtuple.C
+Once the rates are estimated, every event in the opposite-sign sample is scaled by applying a weight that is computed using the charge misidentification rates as explained in Section~(#anchor-rates)
+
+
+The new sample using the charge flip weight is obtained with the following macro:
+
+
+    GetQMisIDNtuple.C
+
+
 
 # Additional studies
 
