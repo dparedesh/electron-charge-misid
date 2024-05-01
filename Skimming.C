@@ -2,8 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-//#include <iomanip>
-//#include <vector>
 
 #include "TPie.h"
 #include "TCanvas.h"
@@ -20,40 +18,23 @@
 
 #include "../../BaselineFramework/Tools/MiniTreeAnalyzer.C"
 
-//WW_ssEW4.tex  WWllvv.tex     WWqqlv.tex  WZlllv.tex  WZqqll.tex  ZZllll.tex     ZZqqll.tex
-//WW_ssEW6.tex  WWllvv_gg.tex  WZ_EW6.tex  WZlvqq.tex  ZZ_EW6.tex  ZZllll_gg.tex
-
-
 
 void Skimming(){
     
-    
-
-   // Channel *ch_jet1= new Channel("SRjet1","SRjet1","(@jets.size()==1)");
-   
-    MiniTreeAnalyzer analyzer;
-    //analyzer.bkgDir="/eos/user/d/dparedes/LooseSSML/data/ge0j/"; //"/eos/user/d/dparedes/mc16e/ge0j/"; //Skimming/";
-     analyzer.bkgDir="/eos/user/d/dparedes/Samples212560/LooseSSML/mc16e/ge0j/"; //"/eos/user/d/dparedes/mc16e/ge0j/";
-    //analyzer.bkgDir="/eos/user/d/dparedes/Samples_4tops_Offline/Samples212560/";
-
-    //analyzer.bkgDir="/eos/user/d/dparedes/Samples_4topsSM/Skimming/";
-    analyzer.SetTreeName("nominal_Loose");
-
+    TString precut="(loose_SSee || OSee) && el_isTight[0] && el_isTight[1] && nMuons==0 && el_pt[0]>28000 && el_pt[1]>28000 && fabs(el_eta[0])<2.47 && fabs(el_eta[1])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52)"; 
     TString sample="Zjets";
 
-    analyzer.AddProcess(sample+".list",sample,sample,14,1,"isBkg");
-    //analyzer.AddProcess("InputFiles/data18.txt","data","data",14,1,"isBkg");
+    MiniTreeAnalyzer analyzer;
 
+    // Main Settings
+    analyzer.bkgDir="/eos/user/d/dparedes/Samples212560/LooseSSML/mc16e/ge0j/"; //"/eos/user/d/dparedes/mc16e/ge0j/";
+    //analyzer.bkgDir="/eos/user/d/dparedes/LooseSSML/data/ge0j/"; //"/eos/user/d/dparedes/mc16e/ge0j/"; //Skimming/";
+  
+    analyzer.SetTreeName("nominal_Loose");
+    analyzer.AddProcess(sample+".list",sample,sample,14,1,"isBkg");
     analyzer.printLog=true;
 
-    //TString precut="loose_SSee";
-
-    //TString precut="(loose_SSee || OSee) && el_isTight[0] && el_isTight[1] && nMuons==0 && el_pt[0]>28000 && el_pt[1]>28000 && fabs(el_eta[0])<2.47 && fabs(el_eta[1])<2.47 && el_isoFCTight[0]>0 && el_isoFCTight[1]>0 && fabs(el_d0sig[0])<5 && fabs(el_d0sig[1])<5 && fabs(el_delta_z0_sintheta[0])<0.5 && fabs(el_delta_z0_sintheta[1])<0.5 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52)";    
-    TString precut="(loose_SSee || OSee) && el_isTight[0] && el_isTight[1] && nMuons==0 && el_pt[0]>28000 && el_pt[1]>28000 && fabs(el_eta[0])<2.47 && fabs(el_eta[1])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52)"; 
-
-    //precut+=" && (mcChannelNumber>= 364114 && mcChannelNumber<=364127)";    
-
-
+    // Variables to keep
     std::vector<TString> vars;
     vars.push_back("loose_SSee");
     vars.push_back("OSee");
@@ -73,7 +54,6 @@ void Skimming(){
     vars.push_back("el_true_firstEgMotherPdgId");
     vars.push_back("el_true_pdg");
     vars.push_back("el_charge");
-
     vars.push_back("weight_bTagSF_MV2c10_77");
     vars.push_back("weight_mc");
     vars.push_back("weight_leptonSF");
@@ -91,11 +71,6 @@ void Skimming(){
     vars.push_back("nPrimaryVtx");
     vars.push_back("mu");
     vars.push_back("Mll01");
-
-   /* vars.push_back("lepton_0_truthClassificationSM4t_bkgFlag");
-    vars.push_back("lepton_1_truthClassificationSM4t_bkgFlag");
-    */
-
     vars.push_back("lep_0_phi");
     vars.push_back("lep_0_eta");
     vars.push_back("lep_0_pt");
@@ -105,9 +80,8 @@ void Skimming(){
     vars.push_back("lep_1_pt");
     vars.push_back("lep_1_charge");
 
-
+    // Skim the data
     analyzer.MakeSkimming(precut,vars);             
 
-
-return;
+    return;
 }
