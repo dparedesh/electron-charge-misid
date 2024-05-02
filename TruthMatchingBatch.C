@@ -93,7 +93,6 @@ class qMisID{
  
       inline TString GetTotalBaselineSelection(){return m_full_baseline_all;};
 
-
       inline void SetVarEta(TString var1,TString var2,Float_t *binning,int n){m_var_eta1=var1; m_var_eta2=var2; m_eta_binning=binning; m_nbins_eta=n;};
       inline void SetVarPt(TString var1,TString var2,Float_t *binning,int n){m_var_pt1=var1; m_var_pt2=var2;m_pt_binning=binning; m_nbins_pt=n;};
              
@@ -110,7 +109,6 @@ class qMisID{
       void ReadInputFile(TString file);
       bool printLog;
       bool m_doSplit;
-
 
       TString m_sel_RR;
       TString m_sel_QQ;
@@ -132,7 +130,6 @@ class qMisID{
       TString m_sel_RnoR_1;
       TString m_sel_RnoR_2;
 
-
       TString m_qflip_ele_1;
       TString m_qflip_ele_2;
       TString m_qflip_pos_1;
@@ -148,7 +145,6 @@ class qMisID{
       TString m_sel_fake_1;
       TString m_sel_fake_2;
   
-
       TString m_pre_electron_1;
       TString m_pre_electron_2;
 
@@ -228,7 +224,6 @@ class qMisID{
       TH2F *m_histo_ratio_RQ;
       TH2F *m_histo_ratio_RF_SS;
 
-
       TH2F *m_histo_RnoR_num;
       TH2F *m_histo_RR_num;
       TH2F *m_histo_QQ_num;
@@ -245,12 +240,11 @@ class qMisID{
 
 qMisID MeasureChargeFlip(TString name,TString file,TString extra_cut,bool useWeight,bool useBDT,bool doToy);
 
-
 TString OutputDir="OutputOverlap212560";
 TString MCversion="";
 
-void ChargeFlipBatchNoCF(TString process,TString binning,bool useWeight,bool useBDT,TString label,TString cut,TString period,bool doToy){
 
+void TruthMatchingBatch(TString process,TString binning,bool useWeight,bool useBDT,TString label,TString cut,TString period,bool doToy){
 
    if (!useWeight) OutputDir+="_Unweighted";
    else OutputDir+="_Weighted";
@@ -262,50 +256,44 @@ void ChargeFlipBatchNoCF(TString process,TString binning,bool useWeight,bool use
 
    MCversion=period; 
 
- 
    qMisID rates= MeasureChargeFlip(process+binning+label,process+".list",cut,useWeight,useBDT,doToy);
 
-
- return;
+   return;
 }
 
 qMisID MeasureChargeFlip(TString name,TString file,TString extra_cut,bool useWeight,bool useBDT,bool doToy){
 
+   TString ori="-1"; 
 
- TString ori="-1"; 
+   if (name.Contains("Zjets")) ori="13";
+   else if (name.Contains("ttbar")) ori="10";
+   else {
+      std::cout << "-- Your name does not correspond to any of the programmed processes: Zjets and ttbar  --> Aborting!"  << std::endl;
+      exit(1);
+   }
 
- if (name.Contains("Zjets")) ori="13";
- else if (name.Contains("ttbar")) ori="10";
- else {
-   std::cout << "-- Your name does not correspond to any of the programmed processes: Zjets and ttbar  --> Aborting!"  << std::endl;
-   exit(1);
- }
+   TString preselection="nElectrons==2 && el_isTight[0] && el_isTight[1] &&  fabs(el_eta[0])<2.47 && fabs(el_eta[1])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52)";
+   
+   TString preselection_electron_1="nElectrons==2";
+   TString preselection_positron_1="nElectrons==2";
 
- TString preselection="nElectrons==2 && el_isTight[0] && el_isTight[1] &&  fabs(el_eta[0])<2.47 && fabs(el_eta[1])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52)";
- TString preselection_electron_1="nElectrons==2";
- TString preselection_positron_1="nElectrons==2";
-
- TString preselection_electron_2="nElectrons==2";
- TString preselection_positron_2="nElectrons==2";
-
-
- if (doToy) {
-    preselection+=" && (el_true_type[0]>=2 && el_true_type[0]<=4) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( el_true_origin[0]=="+ori+" || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && fabs(el_true_firstEgMotherPdgId[0])==11  ) ) && ( el_true_origin[1]=="+ori+" || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && fabs(el_true_firstEgMotherPdgId[1])==11 ) )";
-
-    preselection_electron_1+=" && el_isTight[0] && fabs(el_eta[0])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (el_true_type[0]>=2 && el_true_type[0]<=4) && ( (el_true_origin[0]=="+ori+" && el_true_pdg[0]<0) || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_true_firstEgMotherPdgId[0]==-11  ) ) ";
-
-    preselection_electron_2+=" && el_isTight[1] && fabs(el_eta[1])<2.47 && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( (el_true_origin[1]=="+ori+" && el_true_pdg[1]<0) || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_true_firstEgMotherPdgId[1]==-11  ) ) ";
+   TString preselection_electron_2="nElectrons==2";
+   TString preselection_positron_2="nElectrons==2";
 
 
-    preselection_positron_1+=" && el_isTight[0] && fabs(el_eta[0])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (el_true_type[0]>=2 && el_true_type[0]<=4) && ( (el_true_origin[0]=="+ori+" && el_true_pdg[0]>0) || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_true_firstEgMotherPdgId[0]==11  ) ) ";
+   if (doToy) {
+      preselection+=" && (el_true_type[0]>=2 && el_true_type[0]<=4) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( el_true_origin[0]=="+ori+" || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && fabs(el_true_firstEgMotherPdgId[0])==11  ) ) && ( el_true_origin[1]=="+ori+" || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && fabs(el_true_firstEgMotherPdgId[1])==11 ) )";
 
-    preselection_positron_2+=" && el_isTight[1] && fabs(el_eta[1])<2.47 && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( (el_true_origin[1]=="+ori+" && el_true_pdg[1]>0) || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_true_firstEgMotherPdgId[1]==11  ) ) ";
+      preselection_electron_1+=" && el_isTight[0] && fabs(el_eta[0])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (el_true_type[0]>=2 && el_true_type[0]<=4) && ( (el_true_origin[0]=="+ori+" && el_true_pdg[0]<0) || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_true_firstEgMotherPdgId[0]==-11  ) ) ";
 
- }
+      preselection_electron_2+=" && el_isTight[1] && fabs(el_eta[1])<2.47 && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( (el_true_origin[1]=="+ori+" && el_true_pdg[1]<0) || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_true_firstEgMotherPdgId[1]==-11  ) ) ";
 
+      preselection_positron_1+=" && el_isTight[0] && fabs(el_eta[0])<2.47 && (fabs(el_eta[0])<1.37  || fabs(el_eta[0])>1.52) && (el_true_type[0]>=2 && el_true_type[0]<=4) && ( (el_true_origin[0]=="+ori+" && el_true_pdg[0]>0) || (el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_true_firstEgMotherPdgId[0]==11  ) ) ";
 
+      preselection_positron_2+=" && el_isTight[1] && fabs(el_eta[1])<2.47 && (fabs(el_eta[1])<1.37  || fabs(el_eta[1])>1.52) && (el_true_type[1]>=2 && el_true_type[1]<=4) && ( (el_true_origin[1]=="+ori+" && el_true_pdg[1]>0) || (el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_true_firstEgMotherPdgId[1]==11  ) ) ";
+   }
 
- if (useBDT) {
+   if (useBDT) {
       preselection+=" && (el_ECIDS[0] && el_ECIDS[1])";
 
       preselection_electron_1+=" && el_ECIDS[0]";
@@ -313,90 +301,76 @@ qMisID MeasureChargeFlip(TString name,TString file,TString extra_cut,bool useWei
   
       preselection_positron_1+=" && el_ECIDS[0]";
       preselection_positron_2+=" && el_ECIDS[1]";
- } 
+   } 
 
- TString selection_wrongTrack_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]=="+ori+" && el_charge[0]*el_true_pdg[0]>0";   
- TString selection_wrongTrack_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]=="+ori+" && el_charge[1]*el_true_pdg[1]>0";
+   TString selection_wrongTrack_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]=="+ori+" && el_charge[0]*el_true_pdg[0]>0";   
+   TString selection_wrongTrack_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]=="+ori+" && el_charge[1]*el_true_pdg[1]>0";
 
- TString selection_photonConversion_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_charge[0]*el_true_firstEgMotherPdgId[0]>0"; 
- TString selection_photonConversion_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_charge[1]*el_true_firstEgMotherPdgId[1]>0";
+   TString selection_photonConversion_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]==5 && el_true_firstEgMotherTruthType[0]==2 && el_true_firstEgMotherTruthOrigin[0]=="+ori+" && el_charge[0]*el_true_firstEgMotherPdgId[0]>0"; 
+   TString selection_photonConversion_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]==5 && el_true_firstEgMotherTruthType[1]==2 && el_true_firstEgMotherTruthOrigin[1]=="+ori+" && el_charge[1]*el_true_firstEgMotherPdgId[1]>0";
 
+   TString selection_real_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]=="+ori+" && el_charge[0]*el_true_pdg[0]<0";
+   TString selection_real_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]=="+ori+" && el_charge[1]*el_true_pdg[1]<0";
 
+   TString selection_fake_lep1="!("+ selection_wrongTrack_lep1+") && !("+selection_photonConversion_lep1+") && !("+selection_real_lep1+")";
+   TString selection_fake_lep2="!("+ selection_wrongTrack_lep2+") && !("+selection_photonConversion_lep2+") && !("+selection_real_lep2+")"; 
 
- TString selection_real_lep1="(el_true_type[0]>=2 && el_true_type[0]<=4) && el_true_origin[0]=="+ori+" && el_charge[0]*el_true_pdg[0]<0";
- TString selection_real_lep2="(el_true_type[1]>=2 && el_true_type[1]<=4) && el_true_origin[1]=="+ori+" && el_charge[1]*el_true_pdg[1]<0";
+   TString selection_ss_lep1="("+selection_real_lep1+")"+" && !("+selection_real_lep2+") && el_charge[0]*el_charge[1]>0";
+   TString selection_ss_lep2="("+selection_real_lep2+")"+" && !("+selection_real_lep1+") && el_charge[0]*el_charge[1]>0";
 
- TString selection_fake_lep1="!("+ selection_wrongTrack_lep1+") && !("+selection_photonConversion_lep1+") && !("+selection_real_lep1+")";
- TString selection_fake_lep2="!("+ selection_wrongTrack_lep2+") && !("+selection_photonConversion_lep2+") && !("+selection_real_lep2+")"; 
+   TString TreeName="nominal_Loose";
+   TString varEta0="fabs(el_eta[0])";
+   TString varEta1="fabs(el_eta[1])";
+   TString varPt0="el_pt[0]*0.001"; //converted to GeV
+   TString varPt1="el_pt[1]*0.001"; //converted to GeV
 
+   TString path="/eos/user/d/dparedes/Samples212560/LooseSSML/Skimming/";
 
- TString selection_ss_lep1="("+selection_real_lep1+")"+" && !("+selection_real_lep2+") && el_charge[0]*el_charge[1]>0";
- TString selection_ss_lep2="("+selection_real_lep2+")"+" && !("+selection_real_lep1+") && el_charge[0]*el_charge[1]>0";
+   TString weight="weight_bTagSF_MV2c10_77*weight_mc*weight_leptonSF*weight_pileup*weight_jvt*weight_normalise*(36184.86*(runNumber == 284500) + 43587.3*(runNumber == 300000) + 45691.0*(runNumber == 310000))";
 
+   if (useBDT) weight+="*weight_indiv_SF_EL_ChargeID*weight_indiv_SF_EL_ChargeMisID";
 
- TString TreeName="nominal_Loose";
- TString varEta0="fabs(el_eta[0])";
- TString varEta1="fabs(el_eta[1])";
- TString varPt0="el_pt[0]*0.001"; //converted to GeV
- TString varPt1="el_pt[1]*0.001"; //converted to GeV
+   if (MCversion.Contains("mc16")) path="/eos/user/d/dparedes/Samples212560/LooseSSML/"+MCversion+"/ge0j/Skimming/";
 
+   Float_t EtaBinning[]={0,0.6,1.1,1.52,1.7,2.3,2.5};
+   Float_t PtBinning_Temp[]={0,60,90,130,200,2500};
 
- TString path="/eos/user/d/dparedes/Samples212560/LooseSSML/Skimming/";
-
- TString weight="weight_bTagSF_MV2c10_77*weight_mc*weight_leptonSF*weight_pileup*weight_jvt*weight_normalise*(36184.86*(runNumber == 284500) + 43587.3*(runNumber == 300000) + 45691.0*(runNumber == 310000))";
-
- if (useBDT) weight+="*weight_indiv_SF_EL_ChargeID*weight_indiv_SF_EL_ChargeMisID";
-
-
- if (MCversion.Contains("mc16")) path="/eos/user/d/dparedes/Samples212560/LooseSSML/"+MCversion+"/ge0j/Skimming/";
-
-
-
- Float_t EtaBinning[]={0,0.6,1.1,1.52,1.7,2.3,2.5};
- Float_t PtBinning_Temp[]={0,60,90,130,200,2500};
-
- int nPt=5;
+   int nPt=5;
  
- Float_t PtBinning_Default[]={0,60,90,130,2500};
+   Float_t PtBinning_Default[]={0,60,90,130,2500};
 
- if (name.Contains("Default")) nPt=4;
+   if (name.Contains("Default")) nPt=4;
  
+   Float_t PtBinning[]={};
 
- Float_t PtBinning[]={};
+   if (name.Contains("Default")) std::copy(PtBinning_Default, PtBinning_Default+sizeof(PtBinning_Default)/sizeof(PtBinning_Default[0]), PtBinning);
+   else std::copy(PtBinning_Temp,PtBinning_Temp+sizeof(PtBinning_Temp)/sizeof(PtBinning_Temp[0]), PtBinning);
 
- if (name.Contains("Default")) std::copy(PtBinning_Default, PtBinning_Default+sizeof(PtBinning_Default)/sizeof(PtBinning_Default[0]), PtBinning);
- else std::copy(PtBinning_Temp,PtBinning_Temp+sizeof(PtBinning_Temp)/sizeof(PtBinning_Temp[0]), PtBinning);
-
-
- qMisID qRates(name,name,file,TreeName);
+   qMisID qRates(name,name,file,TreeName);
  
- qRates.SetPath(path);
+   qRates.SetPath(path);
+   qRates.SetBaselineSelection(preselection);
+   qRates.SetBaselineSelectionSplit(preselection_electron_1,preselection_electron_2,preselection_positron_1,preselection_positron_2);
+   qRates.SplitRatesElecPosi(false),
 
- qRates.SetBaselineSelection(preselection);
+   qRates.SetSelectionLepton1(selection_wrongTrack_lep1,selection_photonConversion_lep1);
+   qRates.SetSelectionLepton2(selection_wrongTrack_lep2,selection_photonConversion_lep2);
 
- qRates.SetBaselineSelectionSplit(preselection_electron_1,preselection_electron_2,preselection_positron_1,preselection_positron_2);
- qRates.SplitRatesElecPosi(false),
+   qRates.SetSelectionRealLepton(selection_real_lep1,selection_real_lep2);
+   qRates.SetSelectionFakeLepton(selection_fake_lep1,selection_fake_lep2,"el_charge[0]*el_charge[1]>0");
+   qRates.SetSelectionNoReal(selection_ss_lep1,selection_ss_lep2);
 
- qRates.SetSelectionLepton1(selection_wrongTrack_lep1,selection_photonConversion_lep1);
- qRates.SetSelectionLepton2(selection_wrongTrack_lep2,selection_photonConversion_lep2);
-
- qRates.SetSelectionRealLepton(selection_real_lep1,selection_real_lep2);
- qRates.SetSelectionFakeLepton(selection_fake_lep1,selection_fake_lep2,"el_charge[0]*el_charge[1]>0");
- qRates.SetSelectionNoReal(selection_ss_lep1,selection_ss_lep2);
-
- qRates.SetExtraSelection(extra_cut);
+   qRates.SetExtraSelection(extra_cut);
  
- qRates.SetVarEta(varEta0,varEta1,EtaBinning,6);
- qRates.SetVarPt(varPt0,varPt1,PtBinning,nPt);
- qRates.PrintLog(true);
+   qRates.SetVarEta(varEta0,varEta1,EtaBinning,6);
+   qRates.SetVarPt(varPt0,varPt1,PtBinning,nPt);
+   qRates.PrintLog(true);
 
- if (useWeight) qRates.SetWeight(weight);
+   if (useWeight) qRates.SetWeight(weight);
 
- qRates.Execute();
+   qRates.Execute();
 
-
-
- return qRates;  
+   return qRates;  
 }
 qMisID::qMisID(TString name,TString latex,TString file,TString tree,TString extra=""):
 
@@ -528,11 +502,9 @@ void qMisID::ReadInputFile(TString file){
       if (printLog) cout << "-- Opening file :" << m_path+file <<  endl;
   }
 
-
  TTree* local_Tree = (TTree*)pInput->Get(m_tree);
     
  if (printLog) std::cout<< "-- Tree entries:" << local_Tree->GetEntries() << std::endl;
-
 
  //Creating local histos
  TH2F *local_wrongTrack_num=CreateEtaPtHisto("local_wrongTrack_num");
@@ -548,7 +520,6 @@ void qMisID::ReadInputFile(TString file){
 
  TH2F *local_den1=CreateEtaPtHisto("local_all_den1");
  TH2F *local_den2=CreateEtaPtHisto("local_all_den2");
-
 
  //separating in event types: RR, RQ, QQ, QF, FF, RF
  TH2F *local_RR_num1=CreateEtaPtHisto("local_RR_num1");
@@ -566,10 +537,7 @@ void qMisID::ReadInputFile(TString file){
  TH2F *local_RnoR_num1=CreateEtaPtHisto("local_RnoR_num1");
  TH2F *local_RnoR_num2=CreateEtaPtHisto("local_RnoR_num2");
 
-
-
-
- //fakes must be separated in different categories: All and SS
+ //fakes must be separated into different categories: All and SS
  TH2F *local_RF_num1=CreateEtaPtHisto("local_RF_num1");
  TH2F *local_RF_num2=CreateEtaPtHisto("local_RF_num2");
 
@@ -589,9 +557,6 @@ void qMisID::ReadInputFile(TString file){
  TH2F *local_QF_forFakes_SS_num1=CreateEtaPtHisto("local_QF_forFakes_SS_num1");
  TH2F *local_QF_forFakes_SS_num2=CreateEtaPtHisto("local_QF_forFakes_SS_num2");
 
-
-
-
  //separing in electrons and positrons
  TH2F *local_electron_num=CreateEtaPtHisto("local_electron_num");
  TH2F *local_positron_num=CreateEtaPtHisto("local_positron_num");
@@ -609,8 +574,6 @@ void qMisID::ReadInputFile(TString file){
  TH2F *local_positron_den1=CreateEtaPtHisto("local_positron_den1");
  TH2F *local_positron_den2=CreateEtaPtHisto("local_positron_den2");
 
-
-
  //Gettting selection
  TString qflip_electron_1=Get_qFlip_electron_1();
  TString qflip_electron_2=Get_qFlip_electron_2();
@@ -622,7 +585,6 @@ void qMisID::ReadInputFile(TString file){
  TString sel_positron_1=Get_selection_positron_1();
  TString sel_positron_2=Get_selection_positron_2();
 
-
  TString wrongTrack1=GetFullSelectionWrongTrack1();
  TString wrongTrack2=GetFullSelectionWrongTrack2();
  
@@ -631,7 +593,6 @@ void qMisID::ReadInputFile(TString file){
 
  TString total1=GetTotalSelectionLep1();
  TString total2=GetTotalSelectionLep2();
-
 
  //selection par event type:
  TString sel_RR = GetSelection_RR();
@@ -649,7 +610,6 @@ void qMisID::ReadInputFile(TString file){
  TString sel_QF_1 = GetSelection_QF_1();
  TString sel_QF_2 = GetSelection_QF_2();
 
-
  TString sel_RnoR_1=GetSelection_RnoR_1();
  TString sel_RnoR_2=GetSelection_RnoR_2();
 
@@ -660,7 +620,6 @@ void qMisID::ReadInputFile(TString file){
  TString sel_QF_SS_1 = GetSelection_QF_1_SS();
  TString sel_QF_SS_2 = GetSelection_QF_2_SS();
  //end of selection per event type
-
 
  TString base=GetTotalBaselineSelection();
 
@@ -738,13 +697,11 @@ void qMisID::ReadInputFile(TString file){
  local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_RF_SS_num1->GetName(),sel_RF_SS_1,"goff"); //Fill FF
  local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_RF_SS_num2->GetName(),sel_RF_SS_2,"goff"); //Fill FF
 
-
  m_histo_RR_num->Add(local_RR_num1);
  m_histo_RR_num->Add(local_RR_num2);
 
  m_histo_RnoR_num->Add(local_RnoR_num1);
  m_histo_RnoR_num->Add(local_RnoR_num2);
-
 
  m_histo_QQ_num->Add(local_QQ_num1);
  m_histo_QQ_num->Add(local_QQ_num2);
@@ -773,11 +730,6 @@ void qMisID::ReadInputFile(TString file){
  m_histo_QF_forFakes_SS_num->Add(local_QF_forFakes_SS_num1);
  m_histo_QF_forFakes_SS_num->Add(local_QF_forFakes_SS_num2);
 
-
- 
- 
-
-
  //Filling histos
  local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_wrongTrack_num1->GetName(),wrongTrack1,"goff"); //Fill charge flipped electrons just for wrong track
  local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_wrongTrack_num2->GetName(),wrongTrack2,"goff"); //Fill charge flipped electrons just for wrong track
@@ -800,7 +752,6 @@ void qMisID::ReadInputFile(TString file){
  local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_den1->GetName(),base,"goff"); //baseline selection
  local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_den2->GetName(),base,"goff");
  
-
  m_histo_wrongTrack_num1->Add(local_wrongTrack_num1);
  m_histo_wrongTrack_num2->Add(local_wrongTrack_num2);
  m_histo_photonConversion_num1->Add(local_photonConversion_num1); 
@@ -821,39 +772,35 @@ void qMisID::ReadInputFile(TString file){
 
 
  //filling now for separated electron and positrons:
-
  if (m_doSplit){
- local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_electron_num1->GetName(),qflip_electron_1,"goff");   // Charge flipped e- for leading
- local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_electron_num2->GetName(),qflip_electron_2,"goff");   // Charge flipped e- for sub-leading
+    local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_electron_num1->GetName(),qflip_electron_1,"goff");   // Charge flipped e- for leading
+    local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_electron_num2->GetName(),qflip_electron_2,"goff");   // Charge flipped e- for sub-leading
 
- local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_positron_num1->GetName(),qflip_positron_1,"goff");   // Charge flipped e+ for leading
- local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_positron_num2->GetName(),qflip_positron_2,"goff");   // Charge flipped e+ for sub-leading
+    local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_positron_num1->GetName(),qflip_positron_1,"goff");   // Charge flipped e+ for leading
+    local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_positron_num2->GetName(),qflip_positron_2,"goff");   // Charge flipped e+ for sub-leading
 
- local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_electron_den1->GetName(),sel_electron_1,"goff");   // all e- for leading
- local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_electron_den2->GetName(),sel_electron_2,"goff");   // all e- for sub-leading
+    local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_electron_den1->GetName(),sel_electron_1,"goff");   // all e- for leading
+    local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_electron_den2->GetName(),sel_electron_2,"goff");   // all e- for sub-leading
  
- local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_positron_den1->GetName(),sel_positron_1,"goff");   // all e+ for leading
- local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_positron_den2->GetName(),sel_positron_2,"goff");   // all e+ for sub-leading
+    local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_positron_den1->GetName(),sel_positron_1,"goff");   // all e+ for leading
+    local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_positron_den2->GetName(),sel_positron_2,"goff");   // all e+ for sub-leading
  
+    local_electron_num->Add(local_electron_num1);
+    local_electron_num->Add(local_electron_num2);
+    local_positron_num->Add(local_positron_num1);
+    local_positron_num->Add(local_positron_num2);
 
- local_electron_num->Add(local_electron_num1);
- local_electron_num->Add(local_electron_num2);
- local_positron_num->Add(local_positron_num1);
- local_positron_num->Add(local_positron_num2);
+    local_electron_den->Add(local_electron_den1);
+    local_electron_den->Add(local_electron_den2);
+    local_positron_den->Add(local_positron_den1);
+    local_positron_den->Add(local_positron_den2);
 
- local_electron_den->Add(local_electron_den1);
- local_electron_den->Add(local_electron_den2);
- local_positron_den->Add(local_positron_den1);
- local_positron_den->Add(local_positron_den2);
+    m_histo_electron_num->Add(local_electron_num);
+    m_histo_positron_num->Add(local_positron_num);
+    m_histo_electron_den->Add(local_electron_den);
+    m_histo_positron_den->Add(local_positron_den); 
+ }
 
-
- m_histo_electron_num->Add(local_electron_num);
- m_histo_positron_num->Add(local_positron_num);
- m_histo_electron_den->Add(local_electron_den);
- m_histo_positron_den->Add(local_positron_den); 
-}
-
- 
  std::cout << "###--------- DEBUG : For e- and e+: ------" << std::endl;
  std::cout << "### DEBUG : qFlip: leading e- : " << local_electron_num1->Integral() << std::endl;
  std::cout << "### DEBUG : qFlip: sub-leading e- : " << local_electron_num2->Integral() << std::endl;
@@ -869,9 +816,6 @@ void qMisID::ReadInputFile(TString file){
  std::cout << "### DEBUG : All: sub-leading e+ : " << local_positron_den2->Integral() << std::endl;
  std::cout << "### DEBUG : All: e+ : " << local_positron_den->Integral() << std::endl;
  
-
-
-
  std::cout << "###--------- DEBUG : For event category: --------" << std::endl;
  std::cout << "### DEBUG : RR: " << m_histo_RR_num->Integral() << std::endl;
  std::cout << "### DEBUG : QQ: " << m_histo_QQ_num->Integral() << std::endl;
@@ -899,12 +843,9 @@ void qMisID::ReadInputFile(TString file){
  std::cout << "### DEBUG : total all den2: " << local_den2->Integral() << std::endl;
  std::cout << "### DEBUG : total all den: " << local_den1->Integral()+local_den2->Integral() << std::endl;
 
-
-
  //TCanvas *pC= new TCanvas;
  //pC->cd(1);
  //m_histo_num->Draw("COLZ,TEXT");
-
 
   return;
 }
@@ -921,14 +862,12 @@ TH2F* qMisID::CreateEtaPtHisto(TString label){
 
   hist->Sumw2(); 
 
- return hist;
+  return hist;
 }
 
 void qMisID::Execute(){
 
-
   std::vector<TString> samples=FillVector(m_file);
-
 
   InitializeHistos();  
 
@@ -941,25 +880,16 @@ void qMisID::Execute(){
   
   GetPlots();   
   
-
-
-
- return;
+  return;
 }
 
 void qMisID::GetPlots(){
 
-
- //  m_histo_ratio->Draw();
+ //m_histo_ratio->Draw();
 
  //for (unsigned int i=0; i<m_nbins_pt; i++){ 
-
-
  //   TH1D *pH=m_histo_ratio->ProjectionX("bin_pt",1,)
-
-
-// }
-
+ //}
 
  return;
 }
@@ -982,7 +912,6 @@ void qMisID::ComputeRatios(){
   m_histo_ratio_total_1=GetRatio(m_histo_total_num1,m_histo_all_den1);
   m_histo_ratio_total_2=GetRatio(m_histo_total_num2,m_histo_all_den2);
 
- //******
  /* TH2F *m_histo_all_den_noPhotonConv=(TH2F*)m_histo_all_den->Clone();
   TH2F *m_histo_all_den_noTrack=(TH2F*)m_histo_all_den->Clone();
 
@@ -992,19 +921,16 @@ void qMisID::ComputeRatios(){
   m_histo_ratio_wrongTrack=GetRatio(m_histo_wrongTrack_num,m_histo_all_den_noPhotonConv);
   m_histo_ratio_photonConversion=GetRatio(m_histo_photonConversion_num,m_histo_all_den_noTrack); 
  */
- //*****
-
-   // try to correct with correct denominator: below included all SS: it has to include on SS from the respective source as just above!!
+ 
+  //try to correct with correct denominator: below included all SS: it has to include on SS from the respective source as just above!!
   m_histo_ratio_wrongTrack=GetRatio(m_histo_wrongTrack_num,m_histo_all_den);
   m_histo_ratio_photonConversion=GetRatio(m_histo_photonConversion_num,m_histo_all_den); 
 
   m_histo_all_ratio=GetRatio(m_histo_all_num,m_histo_all_den);
-
   
   //ratio for e- and e+
   m_histo_ratio_electron=GetRatio(m_histo_electron_num,m_histo_electron_den);
   m_histo_ratio_positron=GetRatio(m_histo_positron_num,m_histo_positron_den);
-
 
   //ratio per event category:
   m_histo_ratio_RnoR=GetRatio(m_histo_RnoR_num,m_histo_all_den);
@@ -1012,7 +938,6 @@ void qMisID::ComputeRatios(){
   m_histo_ratio_RF=GetRatio(m_histo_RF_num,m_histo_all_den);
   m_histo_ratio_RF_SS=GetRatio(m_histo_RF_SS_num,m_histo_all_den);
  
-
   pH_Ratios.push_back(m_histo_ratio_wrongTrack_1);
   pH_Ratios.push_back(m_histo_ratio_wrongTrack_2);
   pH_Ratios.push_back(m_histo_ratio_photonConversion_1);
@@ -1029,7 +954,6 @@ void qMisID::ComputeRatios(){
   pH_Ratios.push_back(m_histo_ratio_RF);
   pH_Ratios.push_back(m_histo_ratio_RF_SS);
 
-
   TString fileOutput=OutputDir+"/"+GetName()+".root";
 
   system("mkdir -p "+OutputDir);
@@ -1038,11 +962,7 @@ void qMisID::ComputeRatios(){
       fileOutput=OutputDir+"/"+MCversion+"/"+GetName()+".root";
   }
 
-
-
-
   TFile *pOutput = new TFile(fileOutput,"RECREATE");
-
 
   for (unsigned int i=0; i<pH_Ratios.size(); i++){
 
@@ -1055,15 +975,11 @@ void qMisID::ComputeRatios(){
 
   pOutput->Close();
 
-
  /* 
   m_histo_all_ratio;
-*/
+ */
 
-
-
- /*
- 
+ /* 
  TCanvas *pC = new TCanvas;
  pC->Divide(2,2,0,0);
  pC->cd(1);
@@ -1092,7 +1008,6 @@ void qMisID::InitializeHistos(){
   m_histo_electron_den=CreateEtaPtHisto("electron_den");
   m_histo_positron_den=CreateEtaPtHisto("positron_den");
 
-
   m_histo_wrongTrack_num=CreateEtaPtHisto("wrongTrack_num");
   m_histo_photonConversion_num=CreateEtaPtHisto("photon_conversion_num");
   m_histo_all_num=CreateEtaPtHisto("all_num");
@@ -1114,7 +1029,6 @@ void qMisID::InitializeHistos(){
   m_histo_ratio_photonConversion_2=CreateEtaPtHisto("ratio_photonConversion_2");
   m_histo_ratio_total_1=CreateEtaPtHisto("ratio_total_1");
   m_histo_ratio_total_2=CreateEtaPtHisto("tatio_total_2");
-
 
   m_histo_ratio_electron=CreateEtaPtHisto("ratio_electron");
   m_histo_ratio_positron=CreateEtaPtHisto("ratio_positron");
@@ -1139,12 +1053,7 @@ void qMisID::InitializeHistos(){
   m_histo_RF_SS_num=CreateEtaPtHisto("histo_RF_SS_num");
   m_histo_QF_forFakes_SS_num=CreateEtaPtHisto("histo_QF_forFakes_SS_num");
   
-  
-
-
-
-
- return;
+  return;
 }
 
 void qMisID::SetBaselineSelectionSplit(TString preselection_electron_1,TString preselection_electron_2,TString preselection_positron_1,TString preselection_positron_2){
@@ -1155,24 +1064,23 @@ void qMisID::SetBaselineSelectionSplit(TString preselection_electron_1,TString p
   m_pre_positron_1="("+preselection_positron_1+")";
   m_pre_positron_2="("+preselection_positron_2+")";
 
-
- return;
+  return;
 }
 void qMisID::InitializeSelections(){
 
-
  m_full_baseline_all=m_baseline_sel;
+
  if (m_extra_sel != "") {
+
      m_full_baseline_all="("+m_baseline_sel+" && ("+m_extra_sel+"))";
 
      m_sel_ele_1="("+m_pre_electron_1+" && ("+m_extra_sel+"))";
      m_sel_ele_2="("+m_pre_electron_2+" && ("+m_extra_sel+"))";
      m_sel_pos_1="("+m_pre_positron_1+" && ("+m_extra_sel+"))";
      m_sel_pos_2="("+m_pre_positron_2+" && ("+m_extra_sel+"))";
- }
+  }
 
-
-     
+    
  m_full_sel_wrongTrack_1=m_full_baseline_all+" && "+m_sel_wrongTrack_1;
  m_full_sel_wrongTrack_2=m_full_baseline_all+" && "+m_sel_wrongTrack_2;
 
@@ -1182,46 +1090,40 @@ void qMisID::InitializeSelections(){
  m_full_sel_1=m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+")";
  m_full_sel_2=m_full_baseline_all+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
 
+  //for electrons and positrons:
+ m_qflip_ele_1=m_sel_ele_1+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+")";
+ m_qflip_ele_2=m_sel_ele_2+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
 
- //for electrons and positrons:
-  m_qflip_ele_1=m_sel_ele_1+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+")";
-  m_qflip_ele_2=m_sel_ele_2+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
+ m_qflip_pos_1=m_sel_pos_1+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+")";
+ m_qflip_pos_2=m_sel_pos_2+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
 
-  m_qflip_pos_1=m_sel_pos_1+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+")";
-  m_qflip_pos_2=m_sel_pos_2+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
+ m_sel_RR = m_full_baseline_all+" && ("+m_sel_real_1+" && "+m_sel_real_2+")";
+ m_sel_QQ = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
+ m_sel_FF = m_full_baseline_all+" && ("+m_sel_fake_1+" && "+m_sel_fake_2+")";
 
-  m_sel_RR = m_full_baseline_all+" && ("+m_sel_real_1+" && "+m_sel_real_2+")";
-  m_sel_QQ = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
-  m_sel_FF = m_full_baseline_all+" && ("+m_sel_fake_1+" && "+m_sel_fake_2+")";
+ m_sel_RQ_1 = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_real_2+")";
+ m_sel_RQ_2 = m_full_baseline_all+" && "+m_sel_real_1+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";  
 
-  m_sel_RQ_1 = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_real_2+")";
-  m_sel_RQ_2 = m_full_baseline_all+" && "+m_sel_real_1+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";  
+ m_sel_RF_1 = m_full_baseline_all+" && ("+m_sel_fake_1+" && "+m_sel_real_2+")";
+ m_sel_RF_2 = m_full_baseline_all+" && ("+m_sel_real_1+" && "+m_sel_fake_2+")";
 
-  m_sel_RF_1 = m_full_baseline_all+" && ("+m_sel_fake_1+" && "+m_sel_real_2+")";
-  m_sel_RF_2 = m_full_baseline_all+" && ("+m_sel_real_1+" && "+m_sel_fake_2+")";
+ m_sel_QF_1 = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_fake_2+")";
+ m_sel_QF_2 = m_full_baseline_all+" && "+m_sel_fake_1+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
 
-  m_sel_QF_1 = m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_photonConversion_1+") && ("+m_sel_fake_2+")";
-  m_sel_QF_2 = m_full_baseline_all+" && "+m_sel_fake_1+" && ("+m_sel_wrongTrack_2+" || "+m_sel_photonConversion_2+")";
+ m_sel_FF_SS = m_sel_FF+" && "+m_sel_SS;
+ m_sel_RF_1_SS = m_sel_RF_1+" && "+m_sel_SS;
+ m_sel_RF_2_SS = m_sel_RF_2+" && "+m_sel_SS;
 
-  m_sel_FF_SS = m_sel_FF+" && "+m_sel_SS;
-  m_sel_RF_1_SS = m_sel_RF_1+" && "+m_sel_SS;
-  m_sel_RF_2_SS = m_sel_RF_2+" && "+m_sel_SS;
+ m_sel_QF_1_SS = m_sel_QF_1+" && "+m_sel_SS;
+ m_sel_QF_2_SS = m_sel_QF_2+" && "+m_sel_SS;
 
-  m_sel_QF_1_SS = m_sel_QF_1+" && "+m_sel_SS;
-  m_sel_QF_2_SS = m_sel_QF_2+" && "+m_sel_SS;
-
-
-  m_sel_RnoR_1= m_full_baseline_all+" && ("+m_sel_noReal_lep1+")";
-  m_sel_RnoR_2= m_full_baseline_all+" && ("+m_sel_noReal_lep2+")";
-
-
-   
+ m_sel_RnoR_1= m_full_baseline_all+" && ("+m_sel_noReal_lep1+")";
+ m_sel_RnoR_2= m_full_baseline_all+" && ("+m_sel_noReal_lep2+")";
 
  //m_full_sel_wrongTrack_all=m_full_baseline_all+" && ("+m_sel_wrongTrack_1+" || "+m_sel_wrongTrack_2+")";
  //m_full_sel_photonConversion_all=m_full_baseline_all+" && ("+m_sel_photonConversion_1+" || "+m_sel_photonConversion_2+")";
 
  //m_full_sel_all=m_full_baseline_all+" && ("+m_sel_photonConversion_1+" || "+m_sel_photonConversion_2+" ||"+m_sel_wrongTrack_1+" || "+m_sel_wrongTrack_2+")";
-
 
   return;
 }
@@ -1235,7 +1137,6 @@ void qMisID::PrintSummary(){
 
  std::cout << "- Selection RnoR (1) :" << m_sel_RnoR_1 << std::endl;
  std::cout << "- Selection RnoR (2) :" << m_sel_RnoR_2 << std::endl;
-
 
  return;
 }
@@ -1252,7 +1153,6 @@ std::vector<TString> qMisID::FillVector(TString file){
 
   std::string line;
 
-
   while (std::getline(infile,line) ){
 
         if (line.empty()) continue;
@@ -1262,6 +1162,5 @@ std::vector<TString> qMisID::FillVector(TString file){
         samples.push_back(ss);
   }
 
- return samples;
-
+  return samples;
 }
