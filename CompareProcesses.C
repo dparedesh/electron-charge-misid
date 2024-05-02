@@ -160,11 +160,9 @@ void GetHistos1D(TH2F *pH2,TString process,TString label){
       toSave.ReplaceAll("_nJets_ge0_wrongTrack_num","");
     }
 
-
     if (process=="wrongTrack") rename="Wrong track";
     else if (process=="photon_conversion") rename="Photon conv.";
     else if (process=="all") rename="";
-
 
     pH->SetLineColor(col[i-1]);
     pH->SetLineWidth(2);
@@ -185,8 +183,6 @@ void GetHistos1D(TH2F *pH2,TString process,TString label){
       pLine->Draw("same");
 
     }
-
-
   }
 
   pLeg->Draw("same");
