@@ -34,7 +34,7 @@ TStyle* MyStyle()
 
  
   // set the paper & margin sizes
- // atlasStyle->SetPaperSize(20,26);
+  //atlasStyle->SetPaperSize(20,26);
 
   // set margin sizes
   atlasStyle->SetPadTopMargin(0.05);
@@ -43,7 +43,7 @@ TStyle* MyStyle()
   atlasStyle->SetPadLeftMargin(0.16);
 
   // set title offsets (for axis label)
- atlasStyle->SetTitleXOffset(1.4); //Daniela
+  atlasStyle->SetTitleXOffset(1.4); //Daniela
   atlasStyle->SetTitleYOffset(1.4);  //Daniela
 
   // use large fonts
@@ -69,10 +69,10 @@ TStyle* MyStyle()
   //Daniela
 
   // use bold lines and markers
-//  atlasStyle->SetMarkerStyle(20);
-//  atlasStyle->SetMarkerSize(1.2);
-//  atlasStyle->SetHistLineWidth(2.);
-//  atlasStyle->SetLineStyleString(2,"[12 12]"); // postscript dashes
+  //atlasStyle->SetMarkerStyle(20);
+  //atlasStyle->SetMarkerSize(1.2);
+  //atlasStyle->SetHistLineWidth(2.);
+  //atlasStyle->SetLineStyleString(2,"[12 12]"); // postscript dashes
 
   // get rid of X error bars 
   //atlasStyle->SetErrorX(0.001);
@@ -92,9 +92,8 @@ TStyle* MyStyle()
 
   atlasStyle->SetPalette(57); //krainbow=59
 
- std::cout << "-- Updating style..." << std::endl; 
+  std::cout << "-- Updating style..." << std::endl; 
 
   return atlasStyle;
-
 }
 
