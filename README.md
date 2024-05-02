@@ -192,9 +192,24 @@ The procedure can be done for every physical process, i.e. $Z+jets$  and $t\bar 
 
 ## Validation plots
 
-ValidationPlots.C
+The charge flip rates obtained previously are validated by comparing the number of same-sign events with the number of *weighted* opposite-sign events. Ideally, this is done by comparing the distributions of the different variables used in the analysis. As the samples size can be huge, the most effective way to do this is with parallel jobs.
 
-SubmitValidationPlots.py
+The batch submission of the jobs to get the validation plots for every desired variable is with the script: 
+
+    SubmitValidationPlots.py
+
+
+This script needs as input a list of the `variables` to be plotted. For example:
+
+```python
+variables=["pt1","pt2","eta1","met","Ht","Htlep","Htjets","nJets","BJets","mu","pv","Mll"]
+```
+
+For every element in the list `variables`, the script will call the macro:
+    
+    ValidationPlots.C
+
+which will output the 1D distribution of the same-sign and weighted opposite events overlaid in the same plot. 
 
 
 ## Plot dependencies
