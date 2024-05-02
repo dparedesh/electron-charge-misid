@@ -54,8 +54,8 @@ different electrons.
 The full process is divided into several steps:
 
 1. **Sample selection:** The rates are estimated in a  $Z\rightarrow e^+e^-+jets$  sample for a specific electron selection.
-2. **Estimate the charge misidentification rates**:  They are estimated using the *likelihood method* as a function of $|\eta|$ and $p_\text{T}$ of the electron (to be more precise, the full $|\eta|$ and $p_\text{T}$ ranges have been divided into regions, named *bins*, so that the rates are determined as a function of $|\eta|$ and $p_\text{T}$ bins).
-5. **Estimate the background coming from charge misidentification:** These rates are then applied to scale the data but having opposite-sign electrons, which provide the expected background contribution for the same-signal final state. 
+2. **Estimation of the charge misidentification rates**:  They are estimated using the *likelihood method* as a function of $|\eta|$ and $p_\text{T}$ of the electron (to be more precise, the full $|\eta|$ and $p_\text{T}$ ranges have been divided into regions, named *bins*, so that the rates are determined as a function of $|\eta|$ and $p_\text{T}$ bins).
+5. **Estimation of the background coming from charge misidentification:** These rates are then applied to scale the data but having opposite-sign electrons, which provide the expected background contribution for the same-signal final state. 
 
 Details about how those steps are performed are shown below.
 
@@ -70,7 +70,7 @@ This is done via the macro:
 This macro also requires input the variables that will be saved in the final sample.  The macro will output the *sample* saved in  a .root file containing all the variables requested after applying the selection described above. 
 
 
-## Estimate the charge misidentification rates
+## Estimation of the charge misidentification rates
 
 The misidentification rates of the electron charge are estimated using the likelihood method. 
 
@@ -136,7 +136,7 @@ All the procedure described in this section, including the minimization of the l
 The macro will output the *charge misidentification rates that minimize the likelihood* as a function of the electron $|\eta|$ and $p_\text{T}$. Those rates are stored in 2D histograms, and saved into a file in a .root format. 
 
 
-## Estimate the background from charge misidentification
+## Estimation of the background from charge misidentification
 
 Once the charge misidentification rates are estimated, every event in the opposite-sign sample is scaled by applying a weight computed using Equations (1) and (2). 
 
@@ -159,7 +159,7 @@ The studies described above are done with *real data* from the LHC and they corr
  4. If the rates are compatible for the different physics processes. Our main interest is to check the compatibility of the rates for  $Z+jets$  and $t\bar t+jets$.
 
 
-### Truth matching method
+## Truth matching method
 
 In samples of simulated events, all the information related to the *true* generated electron is known. The charge of the *true* electron can be compared to the one of the *reconstructed* electron. Therefore, the misidentification rates can be computed as the ratio of the number of reconstructed electrons with their charge misidentified with respect to the total number of reconstructed electrons in the sample. This method is called  *truth-matching*. 
 
@@ -190,7 +190,7 @@ In addition, the script will output the rates computed for electrons and positro
 
 The procedure can be done for every physical process, i.e. $Z+jets$  and $t\bar t+jets$.  
 
-## Validation plots
+## Validation of the charge misidentification rates
 
 The charge flip rates obtained previously are validated by comparing the number of same-sign events with the number of *weighted* opposite-sign events. Ideally, this is done by comparing the distributions of the different variables used in the analysis. As the samples size can be huge, the most effective way to do this is with parallel jobs.
 
@@ -212,7 +212,7 @@ For every element in the list `variables`, the script will call the macro:
 which will output the 1D distribution of the same-sign and weighted opposite events overlaid in the same plot. 
 
 
-## Plot dependencies
+## Charge flip rates for different dependencies
 
 ComputeDependencies.C
 
