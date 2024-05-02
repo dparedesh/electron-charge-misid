@@ -436,163 +436,162 @@ void Like::ReadInputFile(TString input){
 
    }//end for events
 
- std::cout << "***** Total events used from this sample : " << extra << std::endl;
- std::cout << "-- outside the interesting range: " << out << std::endl;
+   std::cout << "***** Total events used from this sample : " << extra << std::endl;
+   std::cout << "-- outside the interesting range: " << out << std::endl;
 
- pInput->Close();
+   pInput->Close();
 
- return;
+   return;
 }
 
 void Like::FillVectorsEtaPt(float eta1,float eta2,float pt1,float pt2,float charge1,float charge2,float Mll,float weight){
 
-//std::cout <<"set::  eta1:" << eta1 << ", eta2:" << eta2 << ", pt1: " << pt1 << ", pt2: " << pt2 << std::endl;  
+   //std::cout <<"set::  eta1:" << eta1 << ", eta2:" << eta2 << ", pt1: " << pt1 << ", pt2: " << pt2 << std::endl;  
 
- int m_eta1=-1,m_eta2=-1,m_pt1=-1,m_pt2=-1;
+   int m_eta1=-1,m_eta2=-1,m_pt1=-1,m_pt2=-1;
 
- for (int i=0;i<m_bins_eta; i++){
-   if ((eta1>m_eta_binning[i]) && (eta1<=m_eta_binning[i+1]))  m_eta1=i;
-   if ((eta2>m_eta_binning[i]) && (eta2<=m_eta_binning[i+1]))  m_eta2=i;
- }
+   for (int i=0;i<m_bins_eta; i++){
+   	if ((eta1>m_eta_binning[i]) && (eta1<=m_eta_binning[i+1]))  m_eta1=i;
+   	if ((eta2>m_eta_binning[i]) && (eta2<=m_eta_binning[i+1]))  m_eta2=i;
+   }
 
- for (int j=0;j<m_bins_pt; j++){
-   if ((pt1>m_pt_binning[j]) && (pt1<=m_pt_binning[j+1]))  m_pt1=j;
-   if ((pt2>m_pt_binning[j]) && (pt2<=m_pt_binning[j+1]))  m_pt2=j;
- }
+   for (int j=0;j<m_bins_pt; j++){
+   	if ((pt1>m_pt_binning[j]) && (pt1<=m_pt_binning[j+1]))  m_pt1=j;
+   	if ((pt2>m_pt_binning[j]) && (pt2<=m_pt_binning[j+1]))  m_pt2=j;
+   }
 
- if ((m_eta1==-1) || (m_eta2==-1) || (m_pt1==-1) || (m_pt2==-1)){
-    std::cout << "Something iw wrong with this event: Check eta and pT" << std::endl;
-    std::cout << "eta1, eta2, pt1, pt2 :" << eta1 << ", " << eta2  << ", " << pt1 << ", " << pt2 << std::endl;
-    if (m_pt1==-1) std::cout << "assigning : pt1 :" << m_bins_pt-1  << std::endl;
-    if (m_pt2==-1) std::cout << "assigning : pt2 :" << m_bins_pt-1  << std::endl;
- }
+   if ((m_eta1==-1) || (m_eta2==-1) || (m_pt1==-1) || (m_pt2==-1)){
+   	std::cout << "Something iw wrong with this event: Check eta and pT" << std::endl;
+    	std::cout << "eta1, eta2, pt1, pt2 :" << eta1 << ", " << eta2  << ", " << pt1 << ", " << pt2 << std::endl;
+    	if (m_pt1==-1) std::cout << "assigning : pt1 :" << m_bins_pt-1  << std::endl;
+    	if (m_pt2==-1) std::cout << "assigning : pt2 :" << m_bins_pt-1  << std::endl;
+    }
 
- if (m_pt1==-1 && pt1>m_pt_binning[m_bins_pt]) m_pt1=m_bins_pt-1;
- if (m_pt2==-1 && pt2>m_pt_binning[m_bins_pt]) m_pt2=m_bins_pt-1;
+    if (m_pt1==-1 && pt1>m_pt_binning[m_bins_pt]) m_pt1=m_bins_pt-1;
+    if (m_pt2==-1 && pt2>m_pt_binning[m_bins_pt]) m_pt2=m_bins_pt-1;
 
- int lowE = m_eta1;
- int upE = m_eta2;
- int lowPt = m_pt1;
- int upPt = m_pt2;
+    int lowE = m_eta1;
+    int upE = m_eta2;
+    int lowPt = m_pt1;
+    int upPt = m_pt2;
 
- if (lowE>upE){
-   lowE=m_eta2;
-   upE=m_eta1;
-   lowPt=m_pt2;
-   upPt=m_pt1;
- }
+    if (lowE>upE){
+    	lowE=m_eta2;
+   	upE=m_eta1;
+   	lowPt=m_pt2;
+   	upPt=m_pt1;
+    }
 
- bool isZ=isZpeak(Mll);
- int qq=charge1*charge2;
+    bool isZ=isZpeak(Mll);
+    int qq=charge1*charge2;
 
- if (m_subtract_bkg && !isZ) weight=-0.5*weight;
+    if (m_subtract_bkg && !isZ) weight=-0.5*weight;
 
- if (qq>0){
-    Array_SS[lowE][upE][lowPt][upPt]=Array_SS[lowE][upE][lowPt][upPt]+weight;
- }
- else if (qq<0){
-    Array_OS[lowE][upE][lowPt][upPt]=Array_OS[lowE][upE][lowPt][upPt]+weight;
- }
- else{
-    std::cout << "-- the charge for one of these leptons has not been defined : " << charge1 << ", " << charge2 << std::endl;
-    exit(0);
- }
+    if (qq>0){
+    	Array_SS[lowE][upE][lowPt][upPt]=Array_SS[lowE][upE][lowPt][upPt]+weight;
+    }
+    else if (qq<0){
+    	Array_OS[lowE][upE][lowPt][upPt]=Array_OS[lowE][upE][lowPt][upPt]+weight;
+    }
+    else{
+    	std::cout << "-- the charge for one of these leptons has not been defined : " << charge1 << ", " << charge2 << std::endl;
+    	exit(0);
+    }
 
-/*std::cout << " bin eta 1:" << m_eta1 << std::endl;
-std::cout << " bin eta 2:" << m_eta2 << std::endl;
-std::cout << " bin pt 1:" << m_pt1 << std::endl;
-std::cout << " bin pt 2:" << m_pt2 << std::endl;
-*/
+    /*std::cout << " bin eta 1:" << m_eta1 << std::endl;
+    std::cout << " bin eta 2:" << m_eta2 << std::endl;
+    std::cout << " bin pt 1:" << m_pt1 << std::endl;
+    std::cout << " bin pt 2:" << m_pt2 << std::endl;
+    */
 
- return;
+    return;
 }
 
 bool Like::isZpeak(float M){
 
- if (M > m_low_Z && M < m_up_Z) return true;
- else return false;
+    if (M > m_low_Z && M < m_up_Z) return true;
+    else return false;
 
 }
 
 int Like::ComputeRates(std::vector<double> reference){
 
-   int NPAR=m_bins_eta*m_bins_pt;
+    int NPAR=m_bins_eta*m_bins_pt;
 
-   //init minuit
-   TMinuit *pMinuit = new TMinuit(NPAR);
+    //init minuit
+    TMinuit *pMinuit = new TMinuit(NPAR);
  
-   //give function NLL
-   pMinuit->SetFCN(NLL); 
+    //give function NLL
+    pMinuit->SetFCN(NLL); 
  
-   //defining and setting parameters:
-   Double_t vstart[NPAR];
-   Double_t step[NPAR];
-   Int_t ierflg = 1;
-   double arglist[10];
+    //defining and setting parameters:
+    Double_t vstart[NPAR];
+    Double_t step[NPAR];
+    Int_t ierflg = 1;
+    double arglist[10];
 
-   float init=0.00005;
+    float init=0.00005;
   
-   if (reference.size()>0){
+    if (reference.size()>0){
   
-     if (reference.size()==NPAR){
-        for (unsigned int i=0; i<reference.size(); i++) vstart[i]=reference[i];
-     }
-     else {
-        std::cout << "-- Something went wrong when reading the reference rates... ABORTING!" << std::endl;
-        std::cout << "-- n reference rates: " << reference.size() << std::endl;
-     }
-    /*
-     vstart[0]=vstart[0]
+	if (reference.size()==NPAR){
+            for (unsigned int i=0; i<reference.size(); i++) vstart[i]=reference[i];
+ 	}
+        else {
+            std::cout << "-- Something went wrong when reading the reference rates... ABORTING!" << std::endl;
+            std::cout << "-- n reference rates: " << reference.size() << std::endl;
+        }
+    
+        /*
+         vstart[0]=vstart[0]
      
-     for (int j=1; j<NPAR;++j){
-        vstart[j]=vstart[j-1]*2;
-     }
-     */
-   }
-   else{
+         for (int j=1; j<NPAR;++j){
+             vstart[j]=vstart[j-1]*2;
+         }
+         */
+    }
+    else{
+            for (unsigned int pt=0; pt<m_bins_pt; pt++){
+      		float local_start=(pt+1)*init;
+      		if (pt==2) {
+	  	    local_start=0.0005;
+      	        }  
+      	        if (pt>=3) {
+                    local_start=0.001;
+      	        }
 
-     for (unsigned int pt=0; pt<m_bins_pt; pt++){
-      	float local_start=(pt+1)*init;
-      	if (pt==2) {
-	  local_start=0.0005;
-      	}  
-      	if (pt>=3) {
-          local_start=0.001;
-      	}
+        	int level=pt*m_bins_eta;
+	      	vstart[level]=local_start;
 
-        int level=pt*m_bins_eta;
+      		for (unsigned int eta=1; eta<m_bins_eta; eta++){
+           	    int bin=level + eta;
+                    std::cout << "bin : " << bin << std::endl;
+                    vstart[bin]=vstart[bin-1]*2;
+       	        }// end for
+            } // end for
 
-      	vstart[level]=local_start;
+    }// end else
 
-      	for (unsigned int eta=1; eta<m_bins_eta; eta++){
-           int bin=level + eta;
-           std::cout << "bin : " << bin << std::endl;
-           vstart[bin]=vstart[bin-1]*2;
-       	 }// end for
-      } // end for
+    //float init=0.0005;
+    //if (m_doBDT) init=0.1*init;
 
-   }// end else
+    for (unsigned int i=0; i<NPAR; i++){
 
-   //float init=0.0005;
-   //if (m_doBDT) init=0.1*init;
+           step[i]=1e-12;  
 
-   for (unsigned int i=0; i<NPAR; i++){
-
-       step[i]=1e-12;  
-
-       if (m_doBDT) step[i]=0.5*step[i];
+       	   if (m_doBDT) step[i]=0.5*step[i];
  
-       const TString name=TString::Format("epsilon_%d",i+1);              
+           const TString name=TString::Format("epsilon_%d",i+1);              
 
-       float in=0.0000000000005;
-       float end=0.99;
-       if (m_name.Contains("Data") && NPAR==24){
-            if (name.Contains("epsilon_9")){
+           float in=0.0000000000005;
+           float end=0.99;
+           if (m_name.Contains("Data") && NPAR==24){
+               if (name.Contains("epsilon_9")){
                     in=0.0001; 
                     vstart[i]=0.0006;
                     end=0.001;
-            }
-            if (m_name.Contains("2015")){
+               }
+               if (m_name.Contains("2015")){
                    step[i]=1e-12;
                    //in=0.0000000000005;
 
@@ -606,67 +605,64 @@ int Like::ComputeRates(std::vector<double> reference){
                         vstart[i]=2*in;
                         end=0.0005;
                    }
+                }// end if 2015
+           }// end NPAR 24
 
-
-            }
-       }
-
-       pMinuit->mnparm(i,name,vstart[i],step[i],in,end,ierflg);
+           pMinuit->mnparm(i,name,vstart[i],step[i],in,end,ierflg);
     }
 
-   //TMinuit::mnexcm(const char *command, Double_t *plist, Int_t llist, Int_t &ierflg)
+    //TMinuit::mnexcm(const char *command, Double_t *plist, Int_t llist, Int_t &ierflg)
 
-   //set output log
-   pMinuit->SetPrintLevel(1); //-1 no output, 1 standard output
+    //set output log
+    pMinuit->SetPrintLevel(1); //-1 no output, 1 standard output
 
-   //set error definition
-   //arglist[0]=1;  //1 for Chi square, 0.5 for negative log likelihood
-   //pMinuit->mnexcm("SET ERRDEF",arglist,1,ierrflg);
-   pMinuit->SetErrorDef(1); //1 for Chi square, 0.5 for negative log likelihood
+    //set error definition
+    //arglist[0]=1;  //1 for Chi square, 0.5 for negative log likelihood
+    //pMinuit->mnexcm("SET ERRDEF",arglist,1,ierrflg);
+    pMinuit->SetErrorDef(1); //1 for Chi square, 0.5 for negative log likelihood
 
-   //setting strategy: 1 standard, 2: try to improve the minimum (will take more time)
-   arglist[0]=1;
-   pMinuit->mnexcm("SET STR",arglist,1,ierflg);
+    //setting strategy: 1 standard, 2: try to improve the minimum (will take more time)
+    arglist[0]=1;
+    pMinuit->mnexcm("SET STR",arglist,1,ierflg);
 
-   //Minimization itself:
-   arglist[0]=10000000;
-   pMinuit->mnexcm("MIGRAD",arglist,1,ierflg);
+    //Minimization itself:
+    arglist[0]=10000000;
+    pMinuit->mnexcm("MIGRAD",arglist,1,ierflg);
 
-   //print statistic
-   Double_t amin,edm,errdef;
-   Int_t nvpar,nparx,icstat;
-   pMinuit->mnstat(amin,edm,errdef,nvpar,nparx,icstat);
+    //print statistic
+    Double_t amin,edm,errdef;
+    Int_t nvpar,nparx,icstat;
+    pMinuit->mnstat(amin,edm,errdef,nvpar,nparx,icstat);
 
-   if(icstat < 3) cout<<"There is  a problem with Minuit! "<<endl;
+    if(icstat < 3) cout<<"There is  a problem with Minuit! "<<endl;
 
-   std::cout << std::endl;
-   std::cout << " Minimum fonction = " << amin <<std:: endl;
-   std::cout << " Estimated vert. distance to min. = " << edm <<std:: endl;
-   std::cout << " Number of variable parameters = " << nvpar << std::endl;
-   std::cout << " Highest number of parameters defined by user = " << nparx << std::endl;
-   std::cout << " Status of covariance matrix = " << icstat << std::endl;
-   std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << " Minimum fonction = " << amin <<std:: endl;
+    std::cout << " Estimated vert. distance to min. = " << edm <<std:: endl;
+    std::cout << " Number of variable parameters = " << nvpar << std::endl;
+    std::cout << " Highest number of parameters defined by user = " << nparx << std::endl;
+    std::cout << " Status of covariance matrix = " << icstat << std::endl;
+    std::cout << std::endl;
 
-   double pvalue, perror, plow,phigh;
-   TString pname;
+    double pvalue, perror, plow,phigh;
+    TString pname;
 
-   if(amin < 99999) {
-     for (int i=0; i<m_bins_eta; i++){
-       for (int j=0; j<m_bins_pt; j++){
+    if(amin < 99999) {
+    	    for (int i=0; i<m_bins_eta; i++){
+       	        for (int j=0; j<m_bins_pt; j++){
          
-           pMinuit->mnpout(m_bins_pt*i+j,pname,pvalue,perror,plow,phigh,ierflg);
+                     pMinuit->mnpout(m_bins_pt*i+j,pname,pvalue,perror,plow,phigh,ierflg);
 
-           std::cout << " pname :" << pname << ", val: " << pvalue << std::endl;
-           std::cout << "-------Eta : " << i+1 << ", pt : " << j+1 << std::endl;
+           	     std::cout << " pname :" << pname << ", val: " << pvalue << std::endl;
+                     std::cout << "-------Eta : " << i+1 << ", pt : " << j+1 << std::endl;
 
-           //ArrayLikelihoodEta[j]->SetBinContent(lu+1,pvalue);
-	   // ArrayLikelihoodEta[j]->SetBinError(lu+1,perror);
+                    //ArrayLikelihoodEta[j]->SetBinContent(lu+1,pvalue);
+	            // ArrayLikelihoodEta[j]->SetBinError(lu+1,perror);
 
- 
-           m_TH2_Rates->SetBinContent(i+1,j+1,pvalue);
-           m_TH2_Rates->SetBinError(i+1,j+1,perror);
-        }
-      }
+                    m_TH2_Rates->SetBinContent(i+1,j+1,pvalue);
+                    m_TH2_Rates->SetBinError(i+1,j+1,perror);
+                 }// end pt
+              }// end eta
     }
   
     delete pMinuit;
@@ -676,151 +672,150 @@ int Like::ComputeRates(std::vector<double> reference){
 
 void Like::WriteRates(){
 
-  TString path=m_outputDir+"/"+m_period+"/";
+    TString path=m_outputDir+"/"+m_period+"/";
 
-  system("mkdir -p "+path);
+    system("mkdir -p "+path);
 
-  TString filename=path+m_name+".root";
+    TString filename=path+m_name+".root";
 
-  TFile *pFile = new TFile(filename,"RECREATE");
+    TFile *pFile = new TFile(filename,"RECREATE");
 
-  m_TH2_Rates->Write();
-  m_Mll_OS->Write();
-  m_Mll_SS->Write();
+    m_TH2_Rates->Write();
+    m_Mll_OS->Write();
+    m_Mll_SS->Write();
 
-  pFile->Close();
+    pFile->Close();
 
-  return;
+    return;
 }
 void Like::PlotRates(){
 
-  TCanvas *pR = new TCanvas;
-  pR->cd();
-  //pR->cd()->SetLogy();
-  pR->cd()->SetLogz();
+    TCanvas *pR = new TCanvas;
+    pR->cd();
+    //pR->cd()->SetLogy();
+    pR->cd()->SetLogz();
+  
+    m_TH2_Rates->Draw("COLZ,TEXT"); 
+    TCanvas *pMll = new TCanvas();
+    pMll->cd();
+    pMll->SetLogy();
+    m_Mll_OS->SetLineWidth(2);
+    m_Mll_OS->GetXaxis()->SetTitle("M_{ee} [GeV]");
+    m_Mll_OS->GetYaxis()->SetTitle("Events");
 
-  m_TH2_Rates->Draw("COLZ,TEXT");
- 
-  TCanvas *pMll = new TCanvas();
-  pMll->cd();
-  pMll->SetLogy();
-  m_Mll_OS->SetLineWidth(2);
-  m_Mll_OS->GetXaxis()->SetTitle("M_{ee} [GeV]");
-  m_Mll_OS->GetYaxis()->SetTitle("Events");
+    m_Mll_SS->SetLineWidth(2);
 
-  m_Mll_SS->SetLineWidth(2);
+    m_Mll_OS->SetLineColor(2);
+    m_Mll_OS->SetMinimum(0.1); 
 
-  m_Mll_OS->SetLineColor(2);
-  m_Mll_OS->SetMinimum(0.1); 
+    m_Mll_OS->Draw("L");
+    m_Mll_SS->Draw("L,same");
 
-  m_Mll_OS->Draw("L");
-  m_Mll_SS->Draw("L,same");
-
- return;
+    return;
 }
 void Like::CreateHistos(){
 
-  m_TH2_Rates=CreateEtaPtHisto(m_name);
+    m_TH2_Rates=CreateEtaPtHisto(m_name);
 
-  m_Mll_SS=new TH1F("SS","SS",m_up-m_low,m_low,m_up);
-  m_Mll_OS=new TH1F("OS","OS",m_up-m_low,m_low,m_up);
+    m_Mll_SS=new TH1F("SS","SS",m_up-m_low,m_low,m_up);
+    m_Mll_OS=new TH1F("OS","OS",m_up-m_low,m_low,m_up);
 
-  return;
+    return;
 }
 void Like::PrintSetup(){
 
-  std::cout << "## Initializing execution of Likelihood method with the following settings: " << std::endl;
-  std::cout << "-- isData :" << m_isData << std::endl;
-  std::cout << "-- doBDT :" << m_doBDT << std::endl;
-  std::cout << "-- subtractBkg : " << m_subtract_bkg << std::endl;
-  std::cout << "-- Eta binning : " << m_bins_eta << std::endl;
+    std::cout << "## Initializing execution of Likelihood method with the following settings: " << std::endl;
+    std::cout << "-- isData :" << m_isData << std::endl;
+    std::cout << "-- doBDT :" << m_doBDT << std::endl;
+    std::cout << "-- subtractBkg : " << m_subtract_bkg << std::endl;
+    std::cout << "-- Eta binning : " << m_bins_eta << std::endl;
  
-  //be carefull: number of elements is number of bins +1!
-  for (unsigned int i=0; i<m_bins_eta+1; i++) std::cout << m_eta_binning[i] << ", ";
-  std::cout << " " << std::endl;
+    //be carefull: number of elements is number of bins +1!
+    for (unsigned int i=0; i<m_bins_eta+1; i++) std::cout << m_eta_binning[i] << ", ";
+    std::cout << " " << std::endl;
 
-  std::cout << "-- Pt binning : " << m_bins_pt << std::endl;
+    std::cout << "-- Pt binning : " << m_bins_pt << std::endl;
 
-  for (unsigned int i=0; i<m_bins_pt+1; i++) std::cout << m_pt_binning[i] << ", ";
-  std::cout << " " << std::endl;
+    for (unsigned int i=0; i<m_bins_pt+1; i++) std::cout << m_pt_binning[i] << ", ";
+    std::cout << " " << std::endl;
+ 
+    std::cout << "-- Apply nJets cut: " << m_njets_cut << std::endl;
+    std::cout << "-- Apply Ht cut: " << m_low_Ht <<", " << m_up_Ht << std::endl;
 
-  std::cout << "-- Apply nJets cut: " << m_njets_cut << std::endl;
-  std::cout << "-- Apply Ht cut: " << m_low_Ht <<", " << m_up_Ht << std::endl;
-
-  return;
+    return;
 }
 
 void Like::InitializeVectors(){
 
- std::cout << "## Initializing 4D vectors..." << std::endl;
+    std::cout << "## Initializing 4D vectors..." << std::endl;
 
- Array_SS.clear();
- Array_OS.clear();
+    Array_SS.clear();
+    Array_OS.clear();
 
- Array_SS.shrink_to_fit();
- Array_OS.shrink_to_fit();
+    Array_SS.shrink_to_fit();
+    Array_OS.shrink_to_fit();
 
- std::vector<float> pt2(m_bins_pt,0); 
+    std::vector<float> pt2(m_bins_pt,0); 
 
- std::vector<std::vector<float>> pt1_pt2(m_bins_pt,pt2);
+    std::vector<std::vector<float>> pt1_pt2(m_bins_pt,pt2);
 
- std::vector<std::vector<std::vector<float> > > eta_2(m_bins_eta,pt1_pt2);
+    std::vector<std::vector<std::vector<float> > > eta_2(m_bins_eta,pt1_pt2);
 
- for (unsigned int i=0; i<m_bins_eta; i++) {
+    for (unsigned int i=0; i<m_bins_eta; i++) {
 
-      Array_SS.push_back(eta_2);
+        Array_SS.push_back(eta_2);
 
-      Array_OS.push_back(eta_2);
- }
+        Array_OS.push_back(eta_2);
+    }
 
- return;
+    return;
 }
 
 void Like::DebugVector(){
 
-  float local=0;
+    float local=0;
 
-  for (unsigned int eta1=0; eta1<Array_SS.size(); eta1++){
+    for (unsigned int eta1=0; eta1<Array_SS.size(); eta1++){
 
-      for (unsigned int eta2=0; eta2<Array_SS[eta1].size(); eta2++){   
+        for (unsigned int eta2=0; eta2<Array_SS[eta1].size(); eta2++){   
 
-          for (unsigned int pt1=0; pt1<Array_SS[eta1][eta2].size(); pt1++){
+            for (unsigned int pt1=0; pt1<Array_SS[eta1][eta2].size(); pt1++){
 
-               for (unsigned int pt2=0; pt2<Array_SS[eta1][eta2][pt1].size(); pt2++){
+                 for (unsigned int pt2=0; pt2<Array_SS[eta1][eta2][pt1].size(); pt2++){
 
                      float ss=Array_SS[eta1][eta2][pt1][pt2];       
                      float os=Array_OS[eta1][eta2][pt1][pt2];
           
                      local+=ss+os;
-               }
-          } // end pt1
-      } // end eta2
-  }//end eta1
+                  }
+            } // end pt1
+        } // end eta2
+    }//end eta1
 
 
-  std::cout << "**** --> Compare this number with the one above (it no bkg subtraction then they should match perfectly) --> Total : " << local << std::endl;
+    std::cout << "**** --> Compare this number with the one above (it no bkg subtraction then they should match perfectly) --> Total : " << local << std::endl;
 
-  return;
+    return;
 }
 
 void NLL(int &npar, double *gin, double &f, double *par, Int_t iflag){
 
-  int maxEta = NBINS_ETA;
-  int maxPt = NBINS_PT;
+    int maxEta = NBINS_ETA;
+    int maxPt = NBINS_PT;
    
-  float ss = 0;
-  float all = 0;
-  int par1=-1;
-  int par2=-1;
+    float ss = 0;
+    float all = 0;
+    int par1=-1;
+    int par2=-1;
 
-  double function=0;
+    double function=0;
 
-  //Will loop over eta bins then over pt bins
-  for (unsigned int eta_1=0; eta_1<maxEta; eta_1++){
-    for (unsigned int eta_2 = eta_1; eta_2<maxEta; eta_2++){
+    //Will loop over eta bins then over pt bins
+    for (unsigned int eta_1=0; eta_1<maxEta; eta_1++){
+      for (unsigned int eta_2 = eta_1; eta_2<maxEta; eta_2++){
 
-        for (unsigned int pt_1=0; pt_1<maxPt; pt_1++){
-          for (unsigned int pt_2=0; pt_2<maxPt; pt_2++){
+          for (unsigned int pt_1=0; pt_1<maxPt; pt_1++){
+            for (unsigned int pt_2=0; pt_2<maxPt; pt_2++){
 
                   ss=Array_SS[eta_1][eta_2][pt_1][pt_2];
                   all=ss+Array_OS[eta_1][eta_2][pt_1][pt_2];
@@ -838,51 +833,51 @@ void NLL(int &npar, double *gin, double &f, double *par, Int_t iflag){
                   if (ss!=0) function += ss*log(all*(par[par1]+par[par2])) - all*(par[par1]+par[par2]);
                   else function += -all*(par[par1]+par[par2]);
     
-           } // end pt_2
-        }// end pt_1
+            } // end pt_2
+         }// end pt_1
 
-   }// end eta_2
-  }// end eta_1
+      }// end eta_2
+    }// end eta_1
 
-  f = -1*function;
+    f = -1*function;
 
-  return;
+    return;
 }
 std::vector<TString> Like::FillVector(TString file){
 
-  std::vector<TString> samples;
+    std::vector<TString> samples;
 
-  std::ifstream infile(file.Data());
+    std::ifstream infile(file.Data());
 
-  if (!infile){
+    if (!infile){
         std::cout <<"## File with the list of samples: '"<< file <<"' does not exist --- ABORTING " << std::endl;
         exit(1);
-  }
-  else std::cout << "## Reading file list from : " << file << std::endl;
+    }
+    else std::cout << "## Reading file list from : " << file << std::endl;
 
-  std::string line;
+    std::string line;
 
-  while (std::getline(infile,line) ){
+    while (std::getline(infile,line) ){
 
         if (line.empty()) continue;
 
         TString ss = line;
 
         samples.push_back(ss);
-  }
+    }
 
- return samples;
+    return samples;
 
 }
 
 TH2F* Like::CreateEtaPtHisto(TString label){
 
-  TH2F *hist=new TH2F(m_name+"_all_num",m_name+"_all_num",m_bins_eta,m_eta_binning,m_bins_pt,m_pt_binning);
-  hist->GetYaxis()->SetTitle("Lepton p_{T} [GeV]");
-  hist->GetXaxis()->SetTitle("Lepton #eta");
-  hist->Reset();
+    TH2F *hist=new TH2F(m_name+"_all_num",m_name+"_all_num",m_bins_eta,m_eta_binning,m_bins_pt,m_pt_binning);
+    hist->GetYaxis()->SetTitle("Lepton p_{T} [GeV]");
+    hist->GetXaxis()->SetTitle("Lepton #eta");
+    hist->Reset();
 
-  hist->Sumw2();
+    hist->Sumw2();
 
-  return hist;
+    return hist;
 }
