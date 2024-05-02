@@ -12,7 +12,7 @@ There are two main sources of electron charge misidentification:
 - A slightly curved track that induces a measurement error. This effect is important at high transverse momentum ($p_\text{T}$).  Thus, a small dependence on electron $p_\text{T}$ is also expected in the misidentification rates.
 
 
-### [Preliminary concepts](#anchor-rates) 
+### Preliminary concepts
 
 When a true opposite-sign event (for example $t\bar{t} \rightarrow bW^+\bar{b}W^- \rightarrow
 b\bar{b}e^+e^-\nu\bar{\nu}$) is produced, and assuming that $\epsilon$ is the rate of charge misidentification for a single electron, there are three possibilities for this event to be reconstructed:
@@ -232,8 +232,16 @@ which will output the 1D distribution of the same-sign and weighted opposite eve
 
 
 
-
 # Official results obtained with this tool
+
+- [JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533): Search for $t\bar tH/A \rightarrow t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}=13$ TeV with the ATLAS detector.
+- [JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695): Measurement of the $t\bar tt\bar t$ production cross section in $pp$ collisions at $\sqrt{s}​=13$ TeV with the ATLAS detector.
+- [Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244): Evidence for $t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}
+​=13$ TeV with the ATLAS detector.
+
+- [Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202): Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector.
+
+- [JHEP 10 (2015) 150 ](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
 
 
 
