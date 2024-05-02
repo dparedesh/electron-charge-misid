@@ -49,7 +49,7 @@ for the $e\mu$ channel, where $\epsilon_i$ and $\epsilon_j$ are the charge misid
 different electrons.
     
 
-# Description
+# Methodology
 
 The full process is divided into several steps:
 
@@ -166,7 +166,7 @@ In samples of simulated events, all the information related to the *true* genera
 In addition, samples of simulated events also save the information related to the *origin* of the electron, i.e. is the electron coming from hard Bremsstrahlung? or was the curvature of the electron's track mismeasured? the misidentification rates can be computed for every one of them.  
 
 
-## Estimation of the charge flip rates in parallel: batch jobs
+### Estimation of the charge flip rates in parallel: batch jobs
 
 The run time for estimating the charge misidentification rates can be long. If the charge flip rates are computed for different dependencies the most efficient way to do that is by running parallel jobs.  
 
@@ -190,6 +190,25 @@ In addition, the script will output the rates computed for electrons and positro
 
 The procedure can be done for every physical process, i.e. $Z+jets$  and $t\bar t+jets$.  
 
+
+### Charge flip rates for different dependencies
+
+The ratios of the charge flip rates as a function of $|\eta|$, $p_\text{T}$, and parametrized on the different dependencies can be obtained with the macro:
+
+    ComputeDependencies.C
+
+This macro will output the plot for every variable for which the dependency wants to be study. It needs as input the rates previosly calculated. 
+
+
+### Charge flip rates from different physics processes
+
+The ratios of the charge flip rates for $Z+jets$  and $t\bar t+jets$ as a function of $|\eta|$ and $p_\text{T}$ are obtained with the following macro:
+
+    CompareProcesses.C
+
+It needs as input the rates previosly calculated for every process.
+
+
 ## Validation of the charge misidentification rates
 
 The charge flip rates obtained previously are validated by comparing the number of same-sign events with the number of *weighted* opposite-sign events. Ideally, this is done by comparing the distributions of the different variables used in the analysis. As the samples size can be huge, the most effective way to do this is with parallel jobs.
@@ -212,13 +231,7 @@ For every element in the list `variables`, the script will call the macro:
 which will output the 1D distribution of the same-sign and weighted opposite events overlaid in the same plot. 
 
 
-## Charge flip rates for different dependencies
 
-ComputeDependencies.C
-
-## Charge flip rates from different physics processes
-
-CompareProcesses.C
 
 # Official results obtained with this tool
 
