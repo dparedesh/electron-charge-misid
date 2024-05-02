@@ -8,7 +8,6 @@
 #include "TCanvas.h"
 #include <fstream>
 
-
 class qMisID{
 
    public:
@@ -662,7 +661,6 @@ void qMisID::ReadInputFile(TString file){
     sel_QF_SS_2 = m_weight+"*("+sel_QF_SS_2+")";
  }
 
-
  //Filling histos per event category:
  local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_RR_num1->GetName(),sel_RR,"goff"); //Fill RR
  local_Tree->Draw(m_var_pt2+":"+m_var_eta2+" >> "+local_RR_num2->GetName(),sel_RR,"goff"); //Fill RR
@@ -770,7 +768,6 @@ void qMisID::ReadInputFile(TString file){
  m_histo_all_den->Add(local_den1);
  m_histo_all_den->Add(local_den2);
 
-
  //filling now for separated electron and positrons:
  if (m_doSplit){
     local_Tree->Draw(m_var_pt1+":"+m_var_eta1+" >> "+local_electron_num1->GetName(),qflip_electron_1,"goff");   // Charge flipped e- for leading
@@ -849,9 +846,6 @@ void qMisID::ReadInputFile(TString file){
 
   return;
 }
-
-
-
 
 TH2F* qMisID::CreateEtaPtHisto(TString label){
  
