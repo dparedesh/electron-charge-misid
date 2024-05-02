@@ -237,15 +237,43 @@ which will output the 1D distribution of the same-sign and weighted opposite eve
 This tool has been used to estimate the background coming from the charge misidentification of the following paper publications:
 
 
-- [JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533): Search for $t\bar tH/A \rightarrow t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}=13$ TeV with the ATLAS detector.
-- [JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695): Measurement of the $t\bar tt\bar t$ production cross section in $pp$ collisions at $\sqrt{s}​=13$ TeV with the ATLAS detector.
-- [Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244): Evidence for $t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}
+- [[1] JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533): Search for $t\bar tH/A \rightarrow t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}=13$ TeV with the ATLAS detector.
+- [[2] JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695): Measurement of the $t\bar tt\bar t$ production cross section in $pp$ collisions at $\sqrt{s}​=13$ TeV with the ATLAS detector.
+- [[3] Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244): Evidence for $t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}
 ​=13$ TeV with the ATLAS detector.
 
-- [Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202): Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector.
+- [[4] Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202): Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector.
 
-- [JHEP 10 (2015) 150](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
+- [[5] JHEP 10 (2015) 150](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
 
+
+<p align="center">
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/82b06d02-b3e3-4f6c-92dd-2090312b0c23" align="center" height="250"  ></a>
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/b868eac9-215c-4b48-a931-b126b30f30dc" align="center" height="265"  ></a>
+</p>
+<p align="center"><sub>Figure 1: Comparison of data and total background in the main discriminant variable in this analysis (left). The contribution coming from charge misidentification is labeled as *QmisID*.  Those results were used to compute upper limits on the production rate of the $t\bar tH \rightarrow t\bar tt\bar t$ signal  as a function of the mass of the $H/A$ particle (right)[1]. </sup></p>  
+
+
+
+<p align="center">
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/0af12b9c-3c50-40c3-a0b9-5db07ffe9d27" align="center" height="250"  ></a>
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/5d31dd18-8c01-435e-8157-7ab2129cd80a" align="center" height="270"  ></a>
+</p>
+<p align="center"><sub>Figure 2: Comparison of data and total background in the main discriminant variable in this analysis (left). The contribution coming from charge misidentification is labeled as *Q mis-id*. Those results were used to compute the production rate of the $t\bar tt\bar t$  process in the same-sign dilepton channel [2], and its statistical combination with the 1L/2LOS channel (right)[3]. </sup></p>  
+
+
+
+<p align="center">
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/43086def-dcb4-4ea9-a28f-90cc12016ba9" align="center" height="230"  ></a>
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/91980197-9f01-4c8c-888e-56cbf6343caa" align="center" height="215"  ></a>
+</p>
+<p align="center"><sub>Figure 3: Comparison of the charge misidentification background with the $t\bar tH$ signal (left). Those results were used to compute the signal strength $\mu$ of the $t\bar tH$ signal (right)[4]. </sup></p>  
+
+<p align="center">
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/f2030758-2202-447f-857a-745b4db79500" align="center" height="270"  ></a>
+<a href="url"><img src="https://github.com/dparedesh/electron-charge-misid/assets/13987503/eea88a3f-6234-4fed-8f33-aec9dc3e575d" align="center" height="270"  ></a>
+</p>
+<p align="center"><sub>Figure 4:  Comparison of data and total background in this analysis (left). The background coming from charge misidentification is labeled *Q Mis-id*. Those results were used to perform the statistical interpretation of the data for different New Physics models (right) of Ref. [5]. </sup></p>  
 
 
 
