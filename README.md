@@ -241,7 +241,7 @@ which will output the 1D distribution of the same-sign and weighted opposite eve
 
 - [Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202): Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector.
 
-- [JHEP 10 (2015) 150 ](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
+- [JHEP 10 (2015) 150](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
 
 
 
