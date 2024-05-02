@@ -154,8 +154,9 @@ The studies described above are done with *real data* from the LHC and they corr
  Moreover, additional studies were also performed to check:
 
  1. If there are other dependencies apart from the ones on $|\eta|$ and $p_\text{T}$.
- 2. If the rates are compatible for the different physics processes. Our main interest is to check the compatibility of the rates for  $Z+jets$ and $t\bar t+jets$.
- 3. If the rates for electrons are compatible with those from positrons.
+ 2. If the rates for electrons are compatible with those from positrons.
+ 3. If the rates for electrons from photon conversion are compatible with the ones from wrong electron's track.
+ 4. If the rates are compatible for the different physics processes. Our main interest is to check the compatibility of the rates for  $Z+jets$  and $t\bar t+jets$.
 
 
 ### Truth matching method
@@ -165,20 +166,38 @@ In samples of simulated events, all the information related to the *true* genera
 In addition, samples of simulated events also save the information related to the *origin* of the electron, i.e. is the electron coming from hard Bremsstrahlung? or was the curvature of the electron's track mismeasured? the misidentification rates can be computed for every one of them.  
 
 
-## Batch processing
+## Estimation of the charge flip rates in parallel: batch jobs
 
+The run time for estimating the charge misidentification rates can be long. If the charge flip rates are computed for different dependencies the most efficient way to do that is by running parallel jobs.  
 
-TruthMatchingBatch.C
+The submission of the batch jobs to compute the charge flip rates using the truth-matching method for all the desired dependencies (in addition to $|\eta|$ and $p_\text{T}$) can be done using the script:
 
-SubmitChargeFlipRates.py
+    SubmitChargeFlipRates.py
 
+This script needs an input dictionary `conf[<key>] = <value>` with the ID assigned to the desired configuration as `key` and the selection to be applied to the data as `value`. For example,
+
+   ```python
+   conf["_nJets_ge5"]="nJets>=5"
+   ```
+
+The script calls internally the macro 
+
+    TruthMatchingBatch.C
+
+for every `key` in the `conf` dictionary, and will output the charge flip rates for the `value` provided. 
+
+In addition, the script will output the rates computed for electrons and positrons, and also the charge flip rates depending on the *origin* of the electron. 
+
+The procedure can be done for every physical process, i.e. $Z+jets$  and $t\bar t+jets$.  
+
+## Validation plots
 
 ValidationPlots.C
 
 SubmitValidationPlots.py
 
 
-## Compute Dependencies
+## Plot dependencies
 
 ComputeDependencies.C
 
