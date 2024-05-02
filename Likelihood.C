@@ -180,13 +180,11 @@ Like::Like(TString name,TString input,bool isData,bool doBDT):
 
 Like::~Like()
 {
-
     Array_SS.clear();
     Array_OS.clear();
 
     Array_SS.shrink_to_fit();
     Array_OS.shrink_to_fit();
-
 }
 
 void Like::Execute(){
