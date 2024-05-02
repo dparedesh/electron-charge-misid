@@ -54,7 +54,7 @@ different electrons.
 The full process is divided into several steps:
 
 1. **Sample selection:** The rates are estimated in a  $Z\rightarrow e^+e^-+jets$  sample for a specific electron selection.
-2. **Estimate the charge misidentification rates**:  They are estimated using the likelihood method as a function of $|\eta|$ and $p_\text{T}$ of the electron (to be more precise, the full $|\eta|$ and $p_\text{T}$ ranges have been divided into regions, named *bins*, so that the rates are determined as a function of $|\eta|$ and $p_\text{T}$ bins).
+2. **Estimate the charge misidentification rates**:  They are estimated using the *likelihood method* as a function of $|\eta|$ and $p_\text{T}$ of the electron (to be more precise, the full $|\eta|$ and $p_\text{T}$ ranges have been divided into regions, named *bins*, so that the rates are determined as a function of $|\eta|$ and $p_\text{T}$ bins).
 5. **Estimate the background coming from charge misidentification:** These rates are then applied to scale the data but having opposite-sign electrons, which provide the expected background contribution for the same-signal final state. 
 
 Details about how those steps are performed are shown below.
@@ -147,20 +147,44 @@ This is done with the following macro:
 For the input sample, the macro will output the *same sample with an extra variable* called *weight_qFlip*, corresponding to the charge flip weight. 
 
 
-# Additional studies
+# Additional studies...
+
+The studies described above are done with *real data* from the LHC and they correspond to the standard methodology to compute the charge misidentification rates. However, samples of simulated events can be used to cross-check the results obtained with real data and to validate the method used to compute the rates. 
+
+ Moreover, additional studies were also performed to check:
+
+ 1. If there are other dependencies apart from the ones on $|\eta|$ and $p_\text{T}$.
+ 2. If the rates are compatible for the different physics processes. Our main interest is to check the compatibility of the rates for  $Z+jets$ and $t\bar t+jets$.
+ 3. If the rates for electrons are compatible with those from positrons.
+
+
+### Truth matching method
+
+In samples of simulated events, all the information related to the *true* generated electron is known. The charge of the *true* electron can be compared to the one of the *reconstructed* electron. Therefore, the misidentification rates can be computed as the ratio of the number of reconstructed electrons with their charge misidentified with respect to the total number of reconstructed electrons in the sample. This method is called  *truth-matching*. 
+
+In addition, samples of simulated events also save the information related to the *origin* of the electron, i.e. is the electron coming from hard Bremsstrahlung? or was the curvature of the electron's track mismeasured? the misidentification rates can be computed for every one of them.  
+
+
+## Batch processing
+
+
+TruthMatchingBatch.C
+
+SubmitChargeFlipRates.py
+
+
+ValidationPlots.C
+
+SubmitValidationPlots.py
+
 
 ## Compute Dependencies
 
 ComputeDependencies.C
 
+## Charge flip rates from different physics processes
 
-## Batch processing
-
-ChargeFlipBatchNoCF.C
-
-SubmitChargeFlipRates.py
-
-SubmitValidationPlots.py
+CompareProcesses.C
 
 # Official results obtained with this tool
 
