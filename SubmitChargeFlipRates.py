@@ -2,8 +2,6 @@ import os
 import sys
 import subprocess
 
-
-
 process="Zjets"
 doToy="false"
 jobLabel="Job" #Job
@@ -21,10 +19,7 @@ conf={}
 conf["_nJets_ge0"]="nJets>=0"
 conf["_nJets_ge1"]="nJets>=1"
 
-
-
 '''
-
 conf["_Htlep_ge0_le200"]="HT_all-HT_jets<=200000"
 conf["_Htlep_ge200_le400"]="(HT_all-HT_jets)>200000 && (HT_all-HT_jets)<=400000"
 conf["_Htlep_ge400_le600"]="(HT_all-HT_jets)>400000 && (HT_all-HT_jets)<=600000"
@@ -36,8 +31,6 @@ conf["_Htlep_ge400_le800"]="(HT_all-HT_jets)>400000 && (HT_all-HT_jets)<=800000"
 conf["_Htlep_ge800"]="(HT_all-HT_jets)>800000"
 conf["_Htlep_ge600"]="(HT_all-HT_jets)>600000"
 conf["_Htlep_ge400"]="(HT_all-HT_jets)>400000"
-
-
 
 conf["_nJets_ge5"]="nJets>=5"
 conf["_nJets_le4"]="nJets<=4"
@@ -60,12 +53,9 @@ conf["_Ht_ge0_le500"]="HT_all>0 && HT_all<=500000"
 conf["_Ht_ge500_le1000"]="HT_all>500000 && HT_all<=1000000"
 conf["_Ht_ge500"]   ="HT_all>500000"
 
-
-
 conf["_Ht_ge0_le400"]="HT_all>0 && HT_all<=400000"
 conf["_Ht_ge400_le800"]="HT_all>400000 && HT_all<=800000"
 conf["_Ht_ge800"]   ="HT_all>800000"
-
 
 conf["_Ht_ge0_le300"]="HT_all>0 && HT_all<=300000"
 conf["_Ht_ge300_le600"]="HT_all>300000 && HT_all<=600000"
@@ -87,7 +77,6 @@ conf["_met_le40"] ="met_met<40000"
 conf["_met_ge80"] ="met_met>80000"
 conf["_met_le80"] ="met_met<80000"
 conf["_met_ge40"] ="met_met>40000"
-
 
 #PV
 conf["_pv_ge10"]="nPrimaryVtx>=10"
