@@ -16,8 +16,6 @@
 #include "TLine.h"
 #include "TGraphAsymmErrors.h"
 
-
-
 #include "BaselineFramework/Tools/Yields.C"
 #include "BaselineFramework/Tools/Channel.C"
 #include "BaselineFramework/Tools/EventCut.C"
@@ -47,10 +45,7 @@ class qHisto{
          float min;
          float max;
          TH2F *m_pH;
-
 };
-
-
 
 class qWeight{
 
@@ -64,15 +59,11 @@ class qWeight{
       inline float GetDown(){return w_down;};
       inline float GetNominal(){return w_nom;};
 
-
     private:
       float w_nom;
       float w_up;
       float w_down;
-
-
 };
-
 
 class AddQmisIDWeight{
 
@@ -102,7 +93,6 @@ class AddQmisIDWeight{
 };
 void GetQMisIDNtuple(){
 
-
    TString path="/eos/user/d/dparedes/ChargeFlipTest/";   
    TString tree="nominal_Loose";
    TString inputRates="RatesScaled/";
@@ -111,8 +101,6 @@ void GetQMisIDNtuple(){
    vector<TString> conf_400={"Zjets_plus_Ht_ge0_le400_all_num","Zjets_plus_Ht_ge400_le800_all_num","Zjets_plus_Ht_ge800_all_num"}; 
    vector<TString> conf_500={"Zjets_plus_Ht_ge0_le500_all_num","Zjets_plus_Ht_ge500_all_num"}; 
    vector<TString> standard={"NoFakes_plus_nJets_ge0_all_num"};
-
-
 
    AddQmisIDWeight qMisID("data18.root",path,tree,inputRates);
 
@@ -123,16 +111,13 @@ void GetQMisIDNtuple(){
 
    qMisID.Execute();
 
-
- return;
+   return;
 }
 void AddQmisIDWeight::Execute(){
 
-  ReadInputFile(m_input); 
+   ReadInputFile(m_input); 
 
-
-
- return;
+   return;
 }
 AddQmisIDWeight::AddQmisIDWeight(TString input,TString path,TString tree,TString inputRates):
  m_dependence(),
@@ -142,7 +127,6 @@ AddQmisIDWeight::AddQmisIDWeight(TString input,TString path,TString tree,TString
  m_input(input)
 {
 }
-
 
 AddQmisIDWeight::~AddQmisIDWeight()
 {}
@@ -172,7 +156,6 @@ void AddQmisIDWeight::ReadInputFile(TString input){
   int OSee=-10;
   int OSem=-10;
 
-
   float weight_qFlip_standard_nom=-1;
   float weight_qFlip_Ht300_nom=-1;
   float weight_qFlip_Ht400_nom=-1;
@@ -188,20 +171,17 @@ void AddQmisIDWeight::ReadInputFile(TString input){
   float weight_qFlip_Ht400_down=-1;
   float weight_qFlip_Ht500_down=-1;
 
-
   TBranch *b_standard_nom=pTree->Branch("weight_qFlip_standard_nom",&weight_qFlip_standard_nom,"weight_qFlip_standard_nom/F");
 
   TBranch *b_Ht300_nom=pTree->Branch("weight_qFlip_Ht300_nom",&weight_qFlip_Ht300_nom,"weight_qFlip_Ht300_nom/F");
   TBranch *b_Ht400_nom=pTree->Branch("weight_qFlip_Ht400_nom",&weight_qFlip_Ht400_nom,"weight_qFlip_Ht400_nom/F");
   TBranch *b_Ht500_nom=pTree->Branch("weight_qFlip_Ht500_nom",&weight_qFlip_Ht500_nom,"weight_qFlip_Ht500_nom/F");
 
-  
   TBranch *b_standard_up=pTree->Branch("weight_qFlip_standard_up",&weight_qFlip_standard_up,"weight_qFlip_standard_up/F");
 
   TBranch *b_Ht300_up=pTree->Branch("weight_qFlip_Ht300_up",&weight_qFlip_Ht300_up,"weight_qFlip_Ht300_up/F");
   TBranch *b_Ht400_up=pTree->Branch("weight_qFlip_Ht400_up",&weight_qFlip_Ht400_up,"weight_qFlip_Ht400_up/F");
   TBranch *b_Ht500_up=pTree->Branch("weight_qFlip_Ht500_up",&weight_qFlip_Ht500_up,"weight_qFlip_Ht500_up/F");
-
 
   TBranch *b_standard_down=pTree->Branch("weight_qFlip_standard_down",&weight_qFlip_standard_down,"weight_qFlip_standard_down/F");
 
@@ -209,12 +189,10 @@ void AddQmisIDWeight::ReadInputFile(TString input){
   TBranch *b_Ht400_down=pTree->Branch("weight_qFlip_Ht400_down",&weight_qFlip_Ht400_down,"weight_qFlip_Ht400_down/F");
   TBranch *b_Ht500_down=pTree->Branch("weight_qFlip_Ht500_down",&weight_qFlip_Ht500_down,"weight_qFlip_Ht500_down/F");
 
-
   pTree->SetBranchAddress("el_pt",&el_pt);
   pTree->SetBranchAddress("el_eta",&el_eta);
   pTree->SetBranchAddress("mu_pt",&mu_pt);
   pTree->SetBranchAddress("mu_eta",&mu_eta);
-
 
   pTree->SetBranchAddress("OSee",&OSee);
   pTree->SetBranchAddress("OSem",&OSem);
@@ -244,7 +222,6 @@ void AddQmisIDWeight::ReadInputFile(TString input){
         qWeight* chWeight_500=0;
         qWeight *chWeight_standard=0;
 
-
         if ((m_OSee==1 && el_BDT2==1 && el_BDT1==1) || (m_OSem==1 && el_BDT1==1) ){
 
           TString ch="ee";
@@ -255,26 +232,20 @@ void AddQmisIDWeight::ReadInputFile(TString input){
           chWeight_400=ComputeWeight(ch,el_pt1,el_pt2,el_eta1,el_eta2,m_dependence["Ht_400"],Ht);
           chWeight_500=ComputeWeight(ch,el_pt1,el_pt2,el_eta1,el_eta2,m_dependence["Ht_500"],Ht);
 
-
           weight_qFlip_standard_nom=chWeight_standard->GetNominal();
           weight_qFlip_Ht300_nom=chWeight_300->GetNominal();
           weight_qFlip_Ht400_nom=chWeight_400->GetNominal();
           weight_qFlip_Ht500_nom=chWeight_500->GetNominal();;
-
 
           weight_qFlip_standard_up=chWeight_standard->GetUp();
           weight_qFlip_Ht300_up=chWeight_300->GetUp();
           weight_qFlip_Ht400_up=chWeight_400->GetUp();
           weight_qFlip_Ht500_up=chWeight_500->GetUp();
 
-
           weight_qFlip_standard_down=chWeight_standard->GetDown();
           weight_qFlip_Ht300_down=chWeight_300->GetDown();
           weight_qFlip_Ht400_down=chWeight_400->GetDown();
           weight_qFlip_Ht500_down=chWeight_500->GetDown();
-
-          
-
 
         }///endof OS reweighting
         else {
@@ -293,7 +264,6 @@ void AddQmisIDWeight::ReadInputFile(TString input){
           weight_qFlip_Ht500_down=0;
           weight_qFlip_standard_down=0;
         }
-
 
         //if (m_OSem==1) std::cout << OSee << " " << OSem << " , weight:" << weight_qFlip_Ht300_nom << std::endl;
 
@@ -315,16 +285,13 @@ void AddQmisIDWeight::ReadInputFile(TString input){
 
     }// end loop over eventes
 
-
     pTree->Print(); 
     pTree->Write(); 
 
     pFile->Close();
     //delete pFile;
 
-
-
-  return;
+    return;
 }
 
 qWeight::qWeight(float w,float up=0,float d=0):
@@ -332,6 +299,7 @@ qWeight::qWeight(float w,float up=0,float d=0):
  w_up(up),
  w_down(d)
 {}
+
 qWeight::~qWeight()
 {}
 
@@ -341,7 +309,7 @@ void AddQmisIDWeight::AddDependence(TString name,std::vector<TString> rates){
 
   m_dependence[name]=histos2D;
 
- return;
+  return;
 }
 
 std::vector<qHisto*> AddQmisIDWeight::GetHistos2D(std::vector<TString> rates){
@@ -367,14 +335,12 @@ std::vector<qHisto*> AddQmisIDWeight::GetHistos2D(std::vector<TString> rates){
       pFile->Close();
    }
 
-
    return local;
 }
 
 TH2F* AddQmisIDWeight::ChooseHisto(std::vector<qHisto*> histos,float var){
 
   TH2F *pH=0;
-
 
   for (unsigned int i=0; i<histos.size(); i++){
 
@@ -393,8 +359,6 @@ TH2F* AddQmisIDWeight::ChooseHisto(std::vector<qHisto*> histos,float var){
      else std::cout << "-- Undefined values for min and max  : " << min << ", " << max << std::endl;
 
   }
-
-
 
   return pH;
 }
@@ -429,7 +393,6 @@ qWeight* AddQmisIDWeight::ComputeWeight(TString ch,float el_pt1,float el_pt2,flo
 
    std::vector<double> epsilon_1=GetEpsilon(pH,el_pt1,el_eta1);
   
-
    if (ch=="ee"){
 
       std::vector<double> epsilon_2=GetEpsilon(pH,el_pt2,el_eta2);
@@ -480,14 +443,13 @@ qHisto::qHisto(TH2F* pH):
  min(-1),
  max(-1)
 {
-
   SetValues();
-
 }
+
 qHisto::~qHisto()
 {}
-void qHisto::SetValues(){
 
+void qHisto::SetValues(){
 
  std::string name(m_pH->GetName());
  std::cout << "---- in internal class : " << name << std::endl;
@@ -496,7 +458,6 @@ void qHisto::SetValues(){
  std::vector<std::string> tokens;
 
  analyzer.tokenizeString(name,'_',tokens);
-
 
  TString str_min="";
  TString str_max="";
@@ -508,7 +469,6 @@ void qHisto::SetValues(){
       TString str( l_s(0,2) );
       if (str=="ge") str_min=tokens[i];
       else if (str=="le") str_max=tokens[i];
-
  }
 
  if (str_min!="") min=GetValue(str_min,"ge");
@@ -518,6 +478,7 @@ void qHisto::SetValues(){
 
  return;
 }
+
 float qHisto::GetValue(TString str,TString out){
 
    float val=-1;
