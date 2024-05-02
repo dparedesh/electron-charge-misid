@@ -191,7 +191,6 @@ for (unsigned i=0; i<nPtbins; i++){
 
             if (it->first!=m_sample_to_normalization){
 
-
                if (counter==0) pH->Draw("pL e1");
                else pH->Draw("L e1 same");
                pLeg->AddEntry(pH,local,"pl");
