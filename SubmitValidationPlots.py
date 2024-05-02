@@ -2,21 +2,14 @@ import os
 import sys
 import subprocess
 
-
-
-
 outputDir="ValidationPlots_212560"
-
 
 jobLabel="Job" #Job
 
 path="/afs/cern.ch/user/d/dparedes/WorkCERN/Analysis_4topsSM/4topsSM/"
 
-
-
 #if process=="Zjets" or process=="ttbar":  #do normal splitting just when checking truth rates. Otherwise period=process. 
 #    period=["mc","mc16a","mc16d","mc16e"]
-
 
 useBDT=["true"]#,"false"]
 variables=["pt1","pt2","eta1","met","Ht","Htlep","Htjets","nJets","BJets","mu","pv","Mll"]
@@ -28,9 +21,7 @@ if not os.path.exists('scriptsValidation'):
 #for key, value in conf.iteritems():
 #  print key, value
 
-
 process=["Data","Data2015","Data2016","Data2017","Data2018","mc","mc16a","mc16d","mc16e"]  #ttbar,Zjets,mc,Data
-
 
 for proc in process:
    
@@ -52,7 +43,6 @@ for proc in process:
       #if 'mc16' in per:
       #  queue='workday'
 
-
       for var in variables:
 	print var
 
@@ -69,7 +59,6 @@ for proc in process:
             if 'true' in test:
               localOutput+="_testH"
 
-
     #"ttbar", "Output_Weighted_Full", "mc16d", "v_Ht", "ValidationTest"))
             script='''#!/bin/bash
 
@@ -83,9 +72,7 @@ for proc in process:
 
     root -l -q -b 'MethodABatchFull.C("{0}","{1}","{2}","{3}","{4}",{6})'
 
-
     '''.format(proc,inputDir,per,var,localOutput,path,test)
-
 
             jobName=jobLabel+'_'+proc+"_"+var+"_"+per
 
@@ -119,7 +106,6 @@ queue'''.format(jobName,path+'/scriptsValidation/','workday','20000',per)
             bsubcommand='condor_submit '+path+'scriptsValidation/'+per+'/'+jobName+'_toSubmit.sh'
 
             print bsubcommand
-
 
             subprocess.call(bsubcommand, shell=True)
 
