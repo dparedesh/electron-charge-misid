@@ -76,8 +76,7 @@ class Like{
        TH1F *m_Mll_SS;
        TH1F *m_Mll_OS;
        TString m_path_ref;
-       std::vector<TString> m_ref_hist;
-        
+       std::vector<TString> m_ref_hist;   
 };
 
 Like *ComputeLikelihood(TString name,TString file,bool isData,bool doBDT,bool doSubtractBkg,TString outputDir,TString period="",TString pathReference="",std::vector<TString> ref_hist={});
@@ -149,7 +148,7 @@ Like *ComputeLikelihood(TString name,TString file,bool isData,bool doBDT,bool do
 
     pLike->Execute();
     
-   return pLike;
+    return pLike;
 }
 
 Like::Like(TString name,TString input,bool isData,bool doBDT):
@@ -792,7 +791,6 @@ void Like::DebugVector(){
         } // end eta2
     }//end eta1
 
-
     std::cout << "**** --> Compare this number with the one above (it no bkg subtraction then they should match perfectly) --> Total : " << local << std::endl;
 
     return;
@@ -867,7 +865,6 @@ std::vector<TString> Like::FillVector(TString file){
     }
 
     return samples;
-
 }
 
 TH2F* Like::CreateEtaPtHisto(TString label){
