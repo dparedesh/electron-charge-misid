@@ -234,6 +234,9 @@ which will output the 1D distribution of the same-sign and weighted opposite eve
 
 # Official results obtained with this tool
 
+This tool has been used to estimate the background coming from the charge misidentification of the following paper publications:
+
+
 - [JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533): Search for $t\bar tH/A \rightarrow t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}=13$ TeV with the ATLAS detector.
 - [JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695): Measurement of the $t\bar tt\bar t$ production cross section in $pp$ collisions at $\sqrt{s}​=13$ TeV with the ATLAS detector.
 - [Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244): Evidence for $t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}
