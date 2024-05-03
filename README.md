@@ -237,14 +237,15 @@ which will output the 1D distribution of the same-sign and weighted opposite eve
 This tool has been used to estimate the background coming from the charge misidentification of the following paper publications:
 
 
-- [[1] JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533): Search for $t\bar tH/A \rightarrow t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}=13$ TeV with the ATLAS detector.
-- [[2] JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695): Measurement of the $t\bar tt\bar t$ production cross section in $pp$ collisions at $\sqrt{s}​=13$ TeV with the ATLAS detector.
-- [[3] Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244): Evidence for $t\bar tt\bar t$ production in the multilepton final state in proton–proton collisions at $\sqrt{s}
-​=13$ TeV with the ATLAS detector.
+1. ATLAS Collaboration, *Search for* $t\bar tH/A \rightarrow t\bar tt\bar t$ *production in the multilepton final state in proton–proton collisions at* $\sqrt{s}=13$ *TeV with the ATLAS detector*, [JHEP 07 (2023) 203](https://inspirehep.net/literature/2175533).
 
-- [[4] Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202): Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector.
+2. ATLAS Collaboration, *Measurement of the* $t\bar tt\bar t$ *production cross section in* $pp$ *collisions at* $\sqrt{s}​=13$ *TeV with the ATLAS detector*, [JHEP 11 (2021) 118](https://inspirehep.net/literature/1869695).
 
-- [[5] JHEP 10 (2015) 150](https://inspirehep.net/literature/1361912): Analysis of events with $b$-jets and a pair of leptons of the same charge in $pp$ collisions at $\sqrt{s}=8$ TeV with the ATLAS detector.
+3.  ATLAS Collaboration, *Evidence for* $t\bar tt\bar t$ *production in the multilepton final state in proton–proton collisions at* $\sqrt{s}​=13$ *TeV with the ATLAS detector*, [Eur. Phys. J. C 80 (2020) 1085](https://inspirehep.net/literature/1809244).
+
+4.   ATLAS Collaboration, *Search for the associated production of the Higgs boson with a top quark pair in multilepton final states with the ATLAS detector*, [Phys.Lett.B 749 (2015) 519-541](https://inspirehep.net/literature/1377202).
+
+5.   ATLAS Collaboration, *Analysis of events with* $b$*-jets and a pair of leptons of the same charge in* $pp$ *collisions at* $\sqrt{s}=8$ *TeV with the ATLAS detector*, [JHEP 10 (2015) 150](https://inspirehep.net/literature/1361912). 
 
 
 <p align="center">
